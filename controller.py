@@ -3,7 +3,7 @@ import model
 from datetime import datetime
 
 def start():
-    startTime = datetime.now()
+    startTime = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
     userInput = ''
     while userInput.lower() != 'exit':
         userInput = view.getInput()
