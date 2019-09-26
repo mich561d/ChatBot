@@ -13,10 +13,10 @@ def start():
 def validateInput(userInput, startTime):
     userInputTime = datetime.now()
     userInputLower = userInput.lower()
-    if userInputLower == 'exit':
+    if userInputLower == 'farvel':
         view.exit()
     else:
-        msg = 'I can hear you! You said {}'.format(userInput)
+        msg = 'Jeg kan høre dig! Du sagde {}'.format(userInput)
         view.respondToInput(msg)
         model.addToFile('{} Input: {}'.format(userInputTime, userInput), startTime)
         model.addToFile('{} Response: {}'.format(datetime.now(), msg), startTime)

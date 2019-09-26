@@ -1,5 +1,5 @@
 def getInput():
-    return input('What can I help you with?\n')
+    return input('Hvad kan jeg hjælpe dig med?\n')
 
 
 def respondToInput(msg):
@@ -8,7 +8,7 @@ def respondToInput(msg):
 
 def exit():
     startingLine()
-    print('Exiting...')
+    print('Håber jeg har hjulpet dig, med dine problemer!\n Farvel og forsat god dag!')
     endingLine()
 
 
