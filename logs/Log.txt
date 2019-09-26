@@ -1,0 +1,10 @@
+2019-09-26 09:58:24.942624 Input: hello
+2019-09-26 09:58:24.943716 Response: I can hear you! You said hello
+2019-09-26 09:59:18.698611 Input: contact information
+2019-09-26 09:59:18.699640 Response: I can hear you! You said contact information
+2019-09-26 09:59:21.824627 Input: phone
+2019-09-26 09:59:21.825623 Response: I can hear you! You said phone
+2019-09-26 09:59:26.954924 Input: your boss
+2019-09-26 09:59:26.955922 Response: I can hear you! You said your boss
+2019-09-26 09:59:41.452833 Input: your developer! since you are jsut a stupid echoBot! :(
+2019-09-26 09:59:41.452960 Response: I can hear you! You said your developer! since you are jsut a stupid echoBot! :(
