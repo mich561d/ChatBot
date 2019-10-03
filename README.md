@@ -14,7 +14,7 @@ This project was developed as a exam project for 4. semester in Python.
 
 ## Installation of Project
 open command prompt and do:
-- git clone https://github.com/mich561d/ChatBot.git
+1. git clone https://github.com/mich561d/ChatBot.git
 
 
 ## Other
