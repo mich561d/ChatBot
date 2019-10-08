@@ -49,9 +49,9 @@ Client is invoked from the terminal as : `Python chatBot-client.py <TCP ip addre
 Commands to use from Client:
 1. `whoelse` : displays other users who are online
 2. `wholast` : lastnumber displays the users who were online until lastnumber minutes ago
-3. `send <user> <message>` : sends <message> to <user>
-4. `Broadcast <message>` : displays <message> to the users who are online
-5. `Broadcast <user> <list of users> <message>` :  broadcasts the <message> to <list of users>
+3. `send <user> <message>` : sends \<message\> to \<user\>
+4. `Broadcast <message>` : displays \<message\> to the users who are online
+5. `Broadcast <user> <list of users> <message>` :  broadcasts the \<message\> to \<list of users\>
 6. `Inbox` : Shows the messages that were sent when the client was offline. It also shows chat history.
 
 ## Development environment :
