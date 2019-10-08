@@ -8,7 +8,9 @@ The program uses multi threading concept. There are two scripts, one running on 
 - One to process and respond to the `who`, `wholast`, `send`, `broadcast` commands to the client
 - One to keep sending the messages that are destined to the client.
 
-Similarly the client uses two threads, one for prompting commands from user and getting inputs. The other thread receives chat messages from the server and displays them. **Note :** The responses for the commands are received in thread 1 
+Similarly the client uses two threads, one for prompting commands from user and getting inputs. The other thread receives chat messages from the server and displays them. 
+
+**Note :** The responses for the commands are received in thread 1 
 
 Each pair of thread is connected by a separate socket. (2 sockets are used per client-server) 
 One socket between server and client is exclusively used for the server to get the messages from the clients message queue and send it to the client thread that receives the chat messages.
