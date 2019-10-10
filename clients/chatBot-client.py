@@ -17,12 +17,16 @@ class ServerThread(Thread):
 
     def run(self):
         print("send")
+        starttime = time.time()
         while True:
-            starttime = time.time()
             command = input("Enter command: ")
             curtime = time.time()
+            print(starttime)
+            print(curtime)
+            print(curtime - starttime)
             # Client tiems itself out after TIME_OUT idle time
-            if curtime - starttime > float(TIME_OUT):
+            print(int.from_bytes(TIME_OUT))
+            if curtime - starttime > float(int.from_bytes(TIME_OUT)):
                 print("Your session has been timed out! Please log in again :(")
                 self.socket.close()
                 sys.exit()
@@ -74,7 +78,7 @@ global log
 log = 0
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((TCP_IP, TCP_PORT))
-# Server exchanges tmeout details with client at the start of every socket
+# Server exchanges timeout details with client at the start of every socket
 TIME_OUT = s.recv(BUFFER_SIZE)
 count = [1, 2, 3]
 status = 0
