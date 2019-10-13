@@ -27,11 +27,11 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 
 ### Core Features
 - [x] Client/Server architecture
-- [] Client-based GUI
-- [] Server-based GUI
-- [] Intern-based GUI
-- [] TensorFlow integration
-- [] Multi-language supported
+- [ ] Client-based GUI
+- [ ] Server-based GUI
+- [ ] Intern-based GUI
+- [ ] TensorFlow integration
+- [ ] Multi-language supported
 
 ## Installation of Project
 open command prompt and do : `git clone https://github.com/mich561d/ChatBot.git`

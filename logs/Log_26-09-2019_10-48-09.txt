@@ -1,2 +1,0 @@
-2019-09-26 10:48:11.126901 Input: Henlo
-2019-09-26 10:48:11.127899 Response: I can hear you! You said Henlo

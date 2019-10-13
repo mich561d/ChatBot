@@ -1,2 +1,0 @@
-2019-09-26 10:45:53.872672 Input: hello
-2019-09-26 10:45:53.883032 Response: I can hear you! You said hello
