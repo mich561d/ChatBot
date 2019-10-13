@@ -36,13 +36,10 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 ## Installation of Project
 open command prompt and do : `git clone https://github.com/mich561d/ChatBot.git`
 
-There are only two scripts. Place them on the different systems. If same systems use 127.0.0.1 as the address. 
+Edit settings files and then:
 
-Server is invoked from the terminal as : `Python chatBot-server.py <port number>`
-
-Client is invoked from the terminal as : `Python chatBot-client.py <TCP ip address of the server> <port number>`
-
-Commands to use from Client: `TODO`
+1. Invoke server from the terminal as : `Python chatBot-server.py`
+2. Invoke client from the terminal as : `Python chatBot-client.py`
 
 ## Development environment :
 - Windows 10 Pro
