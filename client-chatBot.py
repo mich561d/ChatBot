@@ -10,57 +10,47 @@ from socketserver import ThreadingMixIn
 import clientSettings as settings
 
 
-class ServerThreadWrite(Thread):
-
-    def __init__(self, socket):
-        Thread.__init__(self)
-        self.socket = socket
-        print("New thread started for write")
-
-    def run(self):
-        starttime = time.time()
-        while True:
-            # Welcome message
-            print(self.socket.recv(settings.BUFFER_SIZE))
-            clientInput = input("Hvad kan jeg gøre for dig med?: ")
-            curtime = time.time()
-            self.socket.send(clientInput)
-            ack = self.socket.recv(settings.BUFFER_SIZE)
-            print(ack)
-
-
 class ServerThreadRead(Thread):
 
     def __init__(self, socket):
         Thread.__init__(self)
         self.socket = socket
-        print("New thread started for chat display")
 
     def run(self):
-        welcomemsg = self.socket.recv(settings.BUFFER_SIZE)
-        print(welcomemsg)
-
-        chat = "initial"
+        WELCOME_MESSAGE = self.socket.recv(settings.BUFFER_SIZE)
+        print('{}: {}'.format(settings.BOT_NAME,WELCOME_MESSAGE))
+        settings.accept_input = True
+        chat = settings.WAITING
         while True:
             chat = self.socket.recv(settings.BUFFER_SIZE)
-            print(chat)
+            print('{}: {}'.format(settings.BOT_NAME, chat))
             time.sleep(5)
 
 
-writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-writeSocket.connect((settings.TCP_IP, settings.TCP_PORT))
+class ServerThreadWrite(Thread):
+
+    def __init__(self, socket):
+        Thread.__init__(self)
+        self.socket = socket
+
+    def run(self):
+        while True:
+            while settings.accept_input:
+                clientInput = input('{}: '.format(settings.USER_NAME))
+                self.socket.send(str.encode(clientInput))
+
 
 readSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-readSocket.connect((settings.TCP_IP, settings.TCP_PORT2))
+readSocket.connect((settings.TCP_IP, settings.TCP_PORT))
+writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+writeSocket.connect((settings.TCP_IP, settings.TCP_PORT2))
 
 threads = []
 try:
-    writeThread = ServerThreadWrite(writeSocket)
+    writeThread = ServerThreadRead(readSocket)
+    readThread = ServerThreadWrite(writeSocket)
     writeThread.daemon = True
-
-    readThread = ServerThreadRead(readSocket)
     readThread.daemon = True
-
     writeThread.start()
     readThread.start()
 
@@ -74,6 +64,7 @@ try:
                 break
         break
 except KeyboardInterrupt:
-    clientInput = "logout"
+    clientInput = 'exit'
+    print(settings.QUIT)
     writeSocket.send(clientInput)
     sys.exit()

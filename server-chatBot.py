@@ -19,7 +19,6 @@ class ClientThreadWrite(Thread):
         self.socket = socket
         self.ip = ip
         self.port = port
-        print("Chat thread started")
 
     def run(self):
         print("[+] Thread ready for "+ip+":"+str(port))
@@ -38,13 +37,12 @@ class ClientThreadRead(Thread):
     def __init__(self, sock):
         Thread.__init__(self)
         self.sock = sock
-        print("New thread for chat relying started")
 
     def run(self):
         tcpsock2.listen(1)
         (connection, address) = tcpsock2.accept()
-        
-        connection.send(str.encode(settings.WELCOME_MESSAGE))
+
+        connection.sendall(str.encode(settings.WELCOME_MESSAGE))
 
         chat = "initial"
         print("ind here is")
@@ -79,26 +77,24 @@ threads = []
 
 while True:
     tcpsock.listen(6)
-    print("Waiting for incoming connections on {}:{}".format(
+    print("Waiting for incoming connections on {}:{}\n".format(
         settings.TCP_IP, settings.TCP_PORT))
     (conn, (ip, port)) = tcpsock.accept()
-    q = queue.Queue()
     lock.acquire()
-    sendqueues[conn.fileno()] = q
+    sendqueues[conn.fileno()] = queue.Queue()
     lock.release()
 
     print("New thread with ", conn.fileno())
 
-    newThread = ClientThreadWrite(conn, ip, port)
-    newThread.daemon = True
-    newThread.start()
+    writeThread = ClientThreadWrite(conn, ip, port)
+    readThread = ClientThreadRead(conn)
+    writeThread.daemon = True
+    readThread.daemon = True
+    writeThread.start()
+    readThread.start()
 
-    newThreadRead = ClientThreadRead(conn)
-    newThreadRead.daemon = True
-    newThreadRead.start()
-
-    threads.append(newThread)
-    threads.append(newThreadRead)
+    threads.append(writeThread)
+    threads.append(readThread)
 
 for t in threads:
     t.join()

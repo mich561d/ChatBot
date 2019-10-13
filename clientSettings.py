@@ -4,5 +4,15 @@ TCP_IP = '127.0.0.1'
 TCP_PORT = 64321
 # Port of ???????
 TCP_PORT2 = 125
-# Normally 1024, but we want fast response
-BUFFER_SIZE = 20
+# Normally 1024, but if we want fast response = 20
+BUFFER_SIZE = 1024
+# Allow input
+accept_input = False
+# ChatBot name
+BOT_NAME = 'Botto'
+# Users name
+USER_NAME = 'Bruger'
+# Waiting message
+WAITING = 'venter på svar...'
+# Quit message
+QUIT = 'Afslutter chat rum, forsæt goddag!'
