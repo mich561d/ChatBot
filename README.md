@@ -46,7 +46,7 @@ Commands to use from Client: `TODO`
 
 ## Development environment :
 - Windows 10 Pro
-- Bash shell
+- Bash shell (Git Bash)
 - Python 3.7.3
 - Visual Studio Code v1.38.1
 - 10th of October, 2019
