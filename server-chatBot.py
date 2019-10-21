@@ -21,76 +21,76 @@ class ClientThreadWrite(Thread):
         self.port = port
 
     def run(self):
-        print("[+] Thread ready for "+ip+":"+str(port))
-        while True:
-            userInput = self.socket.recv(2048)
-            if userInput == 'exit':
-                break
-            else:
-                self.socket.send(userInput)
-        print("Chat thread finished")
-        sys.exit()
+        print("Thread ready for {}:{}\n".format(self.ip, self.port))
+        self.socket.sendall(str.encode(settings.WELCOME_MESSAGE))
 
-
-class ClientThreadRead(Thread):
-
-    def __init__(self, sock):
-        Thread.__init__(self)
-        self.sock = sock
-
-    def run(self):
-        tcpsock2.listen(1)
-        (connection, address) = tcpsock2.accept()
-
-        connection.sendall(str.encode(settings.WELCOME_MESSAGE))
-
-        chat = "initial"
-        print("ind here is")
-        print(self.sock.fileno())
         while True:
             try:
-                chat = sendqueues[self.sock.fileno()].get(False)
-                print(chat)
-                connection.send(chat)
+                lock.acquire()
+                userInput = sendqueues[self.socket.fileno()].get(False)
+                lock.release()
+                if userInput == 'exit':
+                    break
+                self.socket.send(userInput.encode('utf-8'))
             except queue.Empty:
-                chat = "none"
+                userInput = "none"
                 time.sleep(2)
             except KeyError:
                 pass
             except:
                 pass
+        print("Chat thread ended")
+        sys.exit()
+
+
+class ClientThreadRead(Thread):
+
+    def __init__(self, socket):
+        Thread.__init__(self)
+        self.socket = socket
+
+    def run(self):
+        readSocket.listen(1)
+        while True:
+            userInput = readSocket.recv(2048)
+            print(userInput)
+            lock.acquire()
+            sendqueues[self.socket.fileno()].push(userInput.decode('utf-8'))
+            lock.release()
 
 
 lock = threading.Lock()
 
 sendqueues = {}
 
-tcpsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-tcpsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-tcpsock.bind(('', settings.TCP_PORT))
+writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+writeSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+writeSocket.bind(('', settings.TCP_PORT_WRITE))
 
-tcpsock2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-tcpsock2.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-tcpsock2.bind(('', settings.TCP_PORT2))
+readSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+readSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+readSocket.bind(('', settings.TCP_PORT_READ))
+
 
 threads = []
-
 while True:
-    tcpsock.listen(6)
+    writeSocket.listen(6)
     print("Waiting for incoming connections on {}:{}\n".format(
-        settings.TCP_IP, settings.TCP_PORT))
-    (conn, (ip, port)) = tcpsock.accept()
+        settings.TCP_IP, settings.TCP_PORT_WRITE))
+    (connection, (ip, port)) = writeSocket.accept()
+
     lock.acquire()
-    sendqueues[conn.fileno()] = queue.Queue()
+    sendqueues[readSocket.fileno()] = queue.Queue()
     lock.release()
 
-    print("New thread with ", conn.fileno())
+    print("New thread with fileno:{}".format(readSocket.fileno()))
 
-    writeThread = ClientThreadWrite(conn, ip, port)
-    readThread = ClientThreadRead(conn)
+    writeThread = ClientThreadWrite(connection, ip, port)
     writeThread.daemon = True
-    readThread.daemon = True
     writeThread.start()
+
+    readThread = ClientThreadRead(connection)
+    readThread.daemon = True
     readThread.start()
 
     threads.append(writeThread)
@@ -98,4 +98,4 @@ while True:
 
 for t in threads:
     t.join()
-    print("END")
+    print(">>>>>>>>>> END <<<<<<<<<<")

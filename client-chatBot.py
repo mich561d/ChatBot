@@ -18,12 +18,12 @@ class ServerThreadRead(Thread):
 
     def run(self):
         WELCOME_MESSAGE = self.socket.recv(settings.BUFFER_SIZE)
-        print('{}: {}'.format(settings.BOT_NAME,WELCOME_MESSAGE))
+        print('{}: {}'.format(settings.BOT_NAME, WELCOME_MESSAGE.decode('utf-8')))
         settings.accept_input = True
         chat = settings.WAITING
         while True:
             chat = self.socket.recv(settings.BUFFER_SIZE)
-            print('{}: {}'.format(settings.BOT_NAME, chat))
+            print('{}: {}'.format(settings.BOT_NAME, chat.decode('utf-8')))
             time.sleep(5)
 
 
@@ -37,13 +37,14 @@ class ServerThreadWrite(Thread):
         while True:
             while settings.accept_input:
                 clientInput = input('{}: '.format(settings.USER_NAME))
+                print('>TEST< {}'.format(clientInput))
                 self.socket.send(str.encode(clientInput))
 
 
 readSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-readSocket.connect((settings.TCP_IP, settings.TCP_PORT))
+readSocket.connect((settings.TCP_IP, settings.TCP_PORT_READ))
 writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-writeSocket.connect((settings.TCP_IP, settings.TCP_PORT2))
+writeSocket.connect((settings.TCP_IP, settings.TCP_PORT_WRITE))
 
 threads = []
 try:
