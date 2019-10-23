@@ -10,23 +10,6 @@ from socketserver import ThreadingMixIn
 import clientSettings as settings
 
 
-class ServerThreadRead(Thread):
-
-    def __init__(self, socket):
-        Thread.__init__(self)
-        self.socket = socket
-
-    def run(self):
-        WELCOME_MESSAGE = self.socket.recv(settings.BUFFER_SIZE)
-        print('{}: {}'.format(settings.BOT_NAME, WELCOME_MESSAGE.decode('utf-8')))
-        settings.accept_input = True
-        chat = settings.WAITING
-        while True:
-            chat = self.socket.recv(settings.BUFFER_SIZE)
-            print('{}: {}'.format(settings.BOT_NAME, chat.decode('utf-8')))
-            time.sleep(5)
-
-
 class ServerThreadWrite(Thread):
 
     def __init__(self, socket):
@@ -37,19 +20,44 @@ class ServerThreadWrite(Thread):
         while True:
             while settings.accept_input:
                 clientInput = input('{}: '.format(settings.USER_NAME))
-                print('>TEST< {}'.format(clientInput))
+                print('>TEST<: {}'.format(clientInput))
                 self.socket.send(str.encode(clientInput))
+                if clientInput == 'exit':
+                    print(settings.QUIT)
+                    status = 0
+                    sys.exit()
 
 
-readSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-readSocket.connect((settings.TCP_IP, settings.TCP_PORT_READ))
+class ServerThreadRead(Thread):
+
+    def __init__(self, socket):
+        Thread.__init__(self)
+        self.socket = socket
+
+    def run(self):
+        WELCOME_MESSAGE = readSocket.recv(settings.BUFFER_SIZE)
+        print('{}: {}'.format(settings.BOT_NAME, WELCOME_MESSAGE.decode('utf-8')))
+        settings.accept_input = True
+        chat = settings.WAITING
+        while True:
+            chat = readSocket.recv(settings.BUFFER_SIZE)
+            print('{}: {}'.format(settings.BOT_NAME, chat.decode('utf-8')))
+            if status == 0:
+                sys.exit()
+            time.sleep(5)
+
 writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 writeSocket.connect((settings.TCP_IP, settings.TCP_PORT_WRITE))
+readSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+readSocket.connect((settings.TCP_IP, settings.TCP_PORT_READ))
+
+global status
+status = 1
 
 threads = []
 try:
-    writeThread = ServerThreadRead(readSocket)
-    readThread = ServerThreadWrite(writeSocket)
+    writeThread = ServerThreadWrite(writeSocket)
+    readThread = ServerThreadRead(writeSocket)
     writeThread.daemon = True
     readThread.daemon = True
     writeThread.start()

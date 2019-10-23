@@ -12,7 +12,7 @@ from socketserver import ThreadingMixIn
 import serverSettings as settings
 
 
-class ClientThreadWrite(Thread):
+class ClientThreadRead(Thread):
 
     def __init__(self, socket, ip, port):
         Thread.__init__(self)
@@ -21,8 +21,25 @@ class ClientThreadWrite(Thread):
         self.port = port
 
     def run(self):
-        print("Thread ready for {}:{}\n".format(self.ip, self.port))
-        self.socket.sendall(str.encode(settings.WELCOME_MESSAGE))
+        print("Thread ready at {}:{}\n".format(self.ip, self.port))
+        while True:
+            userInput = self.socket.recv(2048)
+            print("input:"+userInput.decode('utf-8'))
+            lock.acquire()
+            sendqueues[self.socket.fileno()].push(userInput.decode('utf-8'))
+            lock.release()
+
+
+class ClientThreadWrite(Thread):
+
+    def __init__(self, socket):
+        Thread.__init__(self)
+        self.socket = socket
+
+    def run(self):
+        writeSocket.listen(1)
+        (connection, address) = writeSocket.accept()
+        connection.sendall(str.encode(settings.WELCOME_MESSAGE))
 
         while True:
             try:
@@ -31,7 +48,7 @@ class ClientThreadWrite(Thread):
                 lock.release()
                 if userInput == 'exit':
                     break
-                self.socket.send(userInput.encode('utf-8'))
+                connection.send(userInput.encode('utf-8'))
             except queue.Empty:
                 userInput = "none"
                 time.sleep(2)
@@ -43,58 +60,42 @@ class ClientThreadWrite(Thread):
         sys.exit()
 
 
-class ClientThreadRead(Thread):
-
-    def __init__(self, socket):
-        Thread.__init__(self)
-        self.socket = socket
-
-    def run(self):
-        readSocket.listen(1)
-        while True:
-            userInput = readSocket.recv(2048)
-            print(userInput)
-            lock.acquire()
-            sendqueues[self.socket.fileno()].push(userInput.decode('utf-8'))
-            lock.release()
-
-
 lock = threading.Lock()
 
 sendqueues = {}
-
-writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-writeSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-writeSocket.bind(('', settings.TCP_PORT_WRITE))
 
 readSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 readSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 readSocket.bind(('', settings.TCP_PORT_READ))
 
+writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+writeSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+writeSocket.bind(('', settings.TCP_PORT_WRITE))
+
 
 threads = []
 while True:
-    writeSocket.listen(6)
+    readSocket.listen(6)
     print("Waiting for incoming connections on {}:{}\n".format(
-        settings.TCP_IP, settings.TCP_PORT_WRITE))
-    (connection, (ip, port)) = writeSocket.accept()
+        settings.TCP_IP, settings.TCP_PORT_READ))
+    (connection, (ip, port)) = readSocket.accept()
 
     lock.acquire()
-    sendqueues[readSocket.fileno()] = queue.Queue()
+    sendqueues[connection.fileno()] = queue.Queue()
     lock.release()
 
-    print("New thread with fileno:{}".format(readSocket.fileno()))
+    print("New thread with fileno:{}".format(connection.fileno()))
 
-    writeThread = ClientThreadWrite(connection, ip, port)
-    writeThread.daemon = True
-    writeThread.start()
-
-    readThread = ClientThreadRead(connection)
+    readThread = ClientThreadRead(connection, ip, port)
     readThread.daemon = True
     readThread.start()
 
-    threads.append(writeThread)
+    writeThread = ClientThreadWrite(connection)
+    writeThread.daemon = True
+    writeThread.start()
+
     threads.append(readThread)
+    threads.append(writeThread)
 
 for t in threads:
     t.join()
