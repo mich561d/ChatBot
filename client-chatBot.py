@@ -20,7 +20,6 @@ class ServerThreadWrite(Thread):
         while True:
             while settings.accept_input:
                 clientInput = input('{}: '.format(settings.USER_NAME))
-                print('>TEST<: {}'.format(clientInput))
                 self.socket.send(str.encode(clientInput))
                 if clientInput == 'exit':
                     print(settings.QUIT)
@@ -45,6 +44,7 @@ class ServerThreadRead(Thread):
             if status == 0:
                 sys.exit()
             time.sleep(5)
+
 
 writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 writeSocket.connect((settings.TCP_IP, settings.TCP_PORT_WRITE))

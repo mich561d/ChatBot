@@ -8,6 +8,7 @@ import threading
 
 from threading import Thread
 from socketserver import ThreadingMixIn
+from datetime import datetime
 
 import serverSettings as settings
 
@@ -23,11 +24,24 @@ class ClientThreadRead(Thread):
     def run(self):
         print("Thread ready at {}:{}\n".format(self.ip, self.port))
         while True:
-            userInput = self.socket.recv(2048)
-            print("input:"+userInput.decode('utf-8'))
-            lock.acquire()
-            sendqueues[self.socket.fileno()].push(userInput.decode('utf-8'))
-            lock.release()
+            try:
+                userInput = self.socket.recv(2048)
+                print("{} | User-{}: {}".format(self.getCurrentTime(),
+                                                self.socket.fileno(), userInput.decode('utf-8')))
+                lock.acquire()
+                sendqueues[self.socket.fileno()].put(userInput.decode('utf-8'))
+                lock.release()
+                if userInput == 'exit':
+                    print('Read: Client ended sessions')
+                    sys.exit()
+            except:
+                pass
+
+    def getCurrentTime(self):
+        dateTimeObj = datetime.now()
+        timeObj = dateTimeObj.time()
+        timeStr = timeObj.strftime("%H:%M:%S")
+        return timeStr
 
 
 class ClientThreadWrite(Thread):
@@ -47,10 +61,12 @@ class ClientThreadWrite(Thread):
                 userInput = sendqueues[self.socket.fileno()].get(False)
                 lock.release()
                 if userInput == 'exit':
-                    break
+                    print('Write: Client ended sessions')
+                    sys.exit()
                 connection.send(userInput.encode('utf-8'))
             except queue.Empty:
                 userInput = "none"
+                lock.release()
                 time.sleep(2)
             except KeyError:
                 pass
