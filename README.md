@@ -45,5 +45,5 @@ Edit settings files and then:
 - Windows 10 Pro
 - Bash shell (Git Bash)
 - Python 3.7.3
-- Visual Studio Code v1.38.1
-- 10th of October, 2019
+- Visual Studio Code v1.39.2
+- 23th of October, 2019

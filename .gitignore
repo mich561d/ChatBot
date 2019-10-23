@@ -1,0 +1,8 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# TensorFlow
+tensorFlow/data.pickle
+
+# Old chatBot files
+#chatBot_Misc
