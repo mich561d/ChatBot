@@ -1,21 +1,27 @@
-import nltk
-## uncomment this line if its the first time you are running it.
-# nltk.download()
+import pickle
+import json
+import random
+import datetime as dt
+import tensorflow as tf
+import tflearn
+import numpy
 from nltk.stem.lancaster import LancasterStemmer
+import nltk
+
+
+def downloadNLTK():
+    nltk.download()
+# downloadNLTK()
+
+
 stemmer = LancasterStemmer()
 
-import numpy
-import tflearn
-import tensorflow as tf
-import random
-import json
-import pickle
 
-with open("intents.json") as file:
+with open('intents.json') as file:
     data = json.load(file)
 
 try:
-    with open("data.pickle", "rb") as f:
+    with open('data.pickle', 'rb') as f:
         words, labels, training, output = pickle.load(f)
 except:
     words = []
@@ -23,19 +29,18 @@ except:
     docs_x = []
     docs_y = []
 
-    for intent in data["intents"]:
-        for pattern in intent["patterns"]:
+    for intent in data['intents']:
+        for pattern in intent['patterns']:
             wrds = nltk.word_tokenize(pattern)
             words.extend(wrds)
             docs_x.append(wrds)
-            docs_y.append(intent["tag"])
+            docs_y.append(intent['tag'])
 
-        if intent["tag"] not in labels:
-            labels.append((intent["tag"]))
+        if intent['tag'] not in labels:
+            labels.append((intent['tag']))
 
-    words = [stemmer.stem(w.lower()) for w in words if w != "?"]
+    words = [stemmer.stem(w.lower()) for w in words if w != '?']
     words = sorted(list(set(words)))
-
     labels = sorted(labels)
 
     training = []
@@ -45,7 +50,6 @@ except:
 
     for x, doc in enumerate(docs_x):
         bag = []
-
         wrds = [stemmer.stem(w) for w in doc]
 
         for w in words:
@@ -63,7 +67,7 @@ except:
     training = numpy.array(training)
     output = numpy.array(output)
 
-    with open("data.pickle", "wb") as f:
+    with open('data.pickle', 'wb') as f:
         pickle.dump((words, labels, training, output), f)
 
 
@@ -72,16 +76,23 @@ tf.reset_default_graph()
 net = tflearn.input_data(shape=[None, len(training[0])])
 net = tflearn.fully_connected(net, 8)
 net = tflearn.fully_connected(net, 8)
-net = tflearn.fully_connected(net, len(output[0]), activation="softmax")
+net = tflearn.fully_connected(net, len(output[0]), activation='softmax')
 net = tflearn.regression(net)
 
 model = tflearn.DNN(net)
 
-try:
-    model.load("model.tflearn")
-except:
+currentDate = dt.datetime.now()
+if currentDate.day == 1 or 1 == 1:
     model.fit(training, output, n_epoch=600, batch_size=8, show_metric=True)
-    model.save("model.tflearn")
+    model.save('model.tflearn')
+else:
+    try:
+        model.load('model.tflearn')
+    except:
+        model.fit(training, output, n_epoch=600,
+                  batch_size=8, show_metric=True)
+        model.save('model.tflearn')
+
 
 def bag_of_words(s, words):
     bag = [0 for _ in range(len(words))]
@@ -95,24 +106,17 @@ def bag_of_words(s, words):
 
     return numpy.array(bag)
 
-def chat():
-    print("Start talking with the bot! (type quit to stop)")
-    while True:
-        inp = input("You: ")
-        if inp.lower() == "quit":
-            break
 
-        results = model.predict([bag_of_words(inp, words)])[0]
-        results_index = numpy.argmax(results)
-        tag = labels[results_index]
+def chat(userInput):
+    results = model.predict([bag_of_words(userInput, words)])[0]
+    results_index = numpy.argmax(results)
+    tag = labels[results_index]
 
-        if results[results_index] > 0.7:
-            for tg in data["intents"]:
-                if tg["tag"] == tag:
-                    responses = tg['responses']
+    if results[results_index] > 0.5:
+        for tg in data['intents']:
+            if tg['tag'] == tag:
+                responses = tg['responses']
 
-            print(random.choice(responses))
-        else:
-            print("Sorry, I didn't quite understand that. Try rephrasing your words or ask another question")
-
-chat()
+        return random.choice(responses)
+    else:
+        return random.choice(data['default'])

@@ -11,6 +11,7 @@ from socketserver import ThreadingMixIn
 from datetime import datetime
 
 import serverSettings as settings
+import brain as brain
 
 
 class ClientThreadRead(Thread):
@@ -63,7 +64,8 @@ class ClientThreadWrite(Thread):
                 if userInput == 'exit':
                     print('Write: Client ended sessions')
                     sys.exit()
-                connection.send(userInput.encode('utf-8'))
+                answer = brain.chat(userInput)
+                connection.send(answer.encode('utf-8'))
             except queue.Empty:
                 userInput = "none"
                 lock.release()
