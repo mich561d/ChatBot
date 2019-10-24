@@ -1,5 +1,6 @@
 # 4th semester exam project - ChatBot
 Create by Jesper C. & Michael Due P.
+
 Last updated: 24th of October, 2019
 
 ## Explanation of Project
