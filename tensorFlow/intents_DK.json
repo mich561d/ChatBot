@@ -1,0 +1,28 @@
+{"intents": [
+        {"tag": "hilse",
+         "patterns": ["hej", "halløj", "doddag", "er der nogen", "hvad så", "godmorgen", "godaften"],
+         "responses": ["Hej", "Halløj", "Goddag", "Godt at se dig igen!", "Hej, hvordan kan jeg hjælpe dig?"],
+         "context_set": ""
+        },
+        {"tag": "farvel",
+         "patterns": ["farvel", "vi ses", "vi ses senere", "jeg smutter", "du må have en god dag", "vi snakkes ved"],
+         "responses": ["Trist at se dig smutte :(", "Vi snakkes ved", "Farvel!", "Håber du snart kommer igen"],
+         "context_set": ""
+        },
+        {"tag": "navn",
+         "patterns": ["hvad er dit navn", "hvad skal jeg kalde dig", "hvad hedder du"],
+         "responses": ["Du kan kalde mig CV-Bot", "Jeg er CV-Bot!", "Jeg bliver kaldt for CV-Bot", "CV-Bot"],
+         "context_set": ""
+        },
+        {"tag": "kontakt",
+         "patterns": ["tlf", "nummer", "telefonnummer", "hvordan kontakter jeg jer", "mail", "email", "fax"],
+         "responses": ["Tlf: 70 10 43 43, Mail: NoneOfYourFuckingBusiness@Goodbye.dk"],
+         "context_set": ""
+        },
+        {"tag": "tider",
+         "patterns": ["hvornår åbner i", "åbningstider", "hvad er jeres åbningstider", "hvornår kan jeg kontakte jer"],
+         "responses": ["Man-Tors: 09.00 - 17.00, Fre: 09.00 - 16.00 Lør: Lukket, Søn: 10.00 - 14.00"],
+         "context_set": ""
+        }
+   ]
+}
