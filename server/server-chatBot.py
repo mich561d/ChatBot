@@ -26,11 +26,10 @@ class ClientThreadRead(Thread):
         print("Thread ready at {}:{}\n".format(self.ip, self.port))
         while True:
             try:
-                userInput = self.socket.recv(2048)
-                print("{} | User-{}: {}".format(self.getCurrentTime(),
-                                                self.socket.fileno(), userInput.decode('utf-8')))
+                userInput = self.socket.recv(2048).decode('utf-8')
+                print("{} | User-{}: {}".format(self.getCurrentDate(), self.socket.fileno(), userInput))
                 lock.acquire()
-                sendqueues[self.socket.fileno()].put(userInput.decode('utf-8'))
+                sendqueues[self.socket.fileno()].put(userInput)
                 lock.release()
                 if userInput == 'exit':
                     print('Read: Client ended sessions')
@@ -38,11 +37,8 @@ class ClientThreadRead(Thread):
             except:
                 pass
 
-    def getCurrentTime(self):
-        dateTimeObj = datetime.now()
-        timeObj = dateTimeObj.time()
-        timeStr = timeObj.strftime("%H:%M:%S")
-        return timeStr
+    def getCurrentDate(self):
+        return datetime.now().strftime("%d/%m/%Y_%H:%M:%S")
 
 
 class ClientThreadWrite(Thread):
