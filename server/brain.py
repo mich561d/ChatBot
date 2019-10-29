@@ -17,7 +17,7 @@ def downloadNLTK():
 stemmer = LancasterStemmer()
 
 
-with open('intents.json') as file:
+with open('C:/Users/mdp/Documents/Python Scripts/chatBot/server/intents.json') as file:
     data = json.load(file)
 
 try:

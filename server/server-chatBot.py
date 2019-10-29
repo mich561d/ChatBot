@@ -5,6 +5,7 @@ import collections
 import time
 import queue
 import threading
+import logging
 
 from threading import Thread
 from socketserver import ThreadingMixIn
@@ -27,7 +28,8 @@ class ClientThreadRead(Thread):
         while True:
             try:
                 userInput = self.socket.recv(2048).decode('utf-8')
-                print("{} | User-{}: {}".format(self.getCurrentDate(), self.socket.fileno(), userInput))
+                print("{} | User-{}: {}".format(self.getCurrentDate(),
+                                                self.socket.fileno(), userInput))
                 lock.acquire()
                 sendqueues[self.socket.fileno()].put(userInput)
                 lock.release()
@@ -46,21 +48,25 @@ class ClientThreadWrite(Thread):
     def __init__(self, socket):
         Thread.__init__(self)
         self.socket = socket
+        self.logfilePath = ''
 
     def run(self):
         writeSocket.listen(1)
-        (connection, address) = writeSocket.accept()
+        (connection, (ip, port)) = writeSocket.accept()
         connection.sendall(str.encode(settings.WELCOME_MESSAGE))
+        self.createLogfile(ip)
 
         while True:
             try:
                 lock.acquire()
                 userInput = sendqueues[self.socket.fileno()].get(False)
                 lock.release()
+                self.addToLogfile('User', userInput)
                 if userInput == 'exit':
                     print('Write: Client ended sessions')
-                    sys.exit()
+                    self.endLogfile()
                 answer = brain.chat(userInput)
+                self.addToLogfile('Bot', answer)
                 connection.send(answer.encode('utf-8'))
             except queue.Empty:
                 userInput = "none"
@@ -71,6 +77,21 @@ class ClientThreadWrite(Thread):
             except:
                 pass
         print("Chat thread ended")
+        self.endLogfile()
+
+    def createLogfile(self, ip):
+        START_TIME = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
+        FILE_NAME = '{}_{}.txt'.format(START_TIME, ip.replace('.', ''))
+        self.logfilePath = 'chatBot/server/logs/{}'.format(FILE_NAME)
+        logging.basicConfig(filename=self.logfilePath, level=logging.INFO, format='%(message)s')
+        logging.info('Start time: {}'.format(START_TIME))
+
+    def addToLogfile(self, speaker, message):
+        logging.info('{}: {}'.format(speaker, message))
+
+    def endLogfile(self):
+        END_TIME = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
+        logging.info('End time: {}'.format(END_TIME))
         sys.exit()
 
 

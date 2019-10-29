@@ -71,16 +71,34 @@
         {
             "tag": "contact",
             "patterns": [
-                "number",
-                "phone",
-                "contact",
+                "what is your number",
+                "can you tell me the phonenumber",
+                "I want to contact you",
                 "how do I contact you",
-                "mail",
-                "email",
-                "fax"
+                "what is the mail address",
+                "where shall i send an email to",
+                "do you have fax"
             ],
             "responses": [
                 "Phone: +45 7010 4343, Email: NoneOfYourFuckingBusiness@Goodbye.dk"
+            ],
+            "context_set": ""
+        },
+        {
+            "tag": "thanks",
+            "patterns": [
+                "thank you",
+                "thanks",
+                "nice",
+                "cool",
+                "that is perfect",
+                "just the anwser I was looking for"
+            ],
+            "responses": [
+                "You're welcome",
+                "No problem",
+                "Anything else?",
+                "I'm at your service"
             ],
             "context_set": ""
         }
