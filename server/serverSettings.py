@@ -1,5 +1,5 @@
 # Welcome message to display on client side when client connects to the server
-WELCOME_MESSAGE = "Goddag! Mit navn er CV-Bot :) Hvad kan jeg hjaelpe dig med?"
+WELCOME_MESSAGE = "Hello! My name is CV-Bot :) What can I help you with?"
 # IP of the server / IP that clients need to connect to
 TCP_IP = '127.0.0.1'
 # Port of the server / Port that clients need to connect to

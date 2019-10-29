@@ -37,7 +37,6 @@ class ServerThreadRead(Thread):
         WELCOME_MESSAGE = readSocket.recv(settings.BUFFER_SIZE)
         print('{}: {}'.format(settings.BOT_NAME, WELCOME_MESSAGE.decode('utf-8')))
         settings.accept_input = True
-        chat = settings.WAITING
         while True:
             chat = readSocket.recv(settings.BUFFER_SIZE)
             print('{}: {}'.format(settings.BOT_NAME, chat.decode('utf-8')))

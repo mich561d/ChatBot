@@ -24,11 +24,11 @@ class ClientThreadRead(Thread):
         self.port = port
 
     def run(self):
-        print("Thread ready at {}:{}\n".format(self.ip, self.port))
+        print('Thread ready at {}:{}\n'.format(self.ip, self.port))
         while True:
             try:
                 userInput = self.socket.recv(2048).decode('utf-8')
-                print("{} | User-{}: {}".format(self.getCurrentDate(),
+                print('{} | User-{}: {}'.format(self.getCurrentDate(),
                                                 self.socket.fileno(), userInput))
                 lock.acquire()
                 sendqueues[self.socket.fileno()].put(userInput)
@@ -40,7 +40,7 @@ class ClientThreadRead(Thread):
                 pass
 
     def getCurrentDate(self):
-        return datetime.now().strftime("%d/%m/%Y_%H:%M:%S")
+        return datetime.now().strftime('%d/%m/%Y-%H:%M:%S')
 
 
 class ClientThreadWrite(Thread):
@@ -48,7 +48,6 @@ class ClientThreadWrite(Thread):
     def __init__(self, socket):
         Thread.__init__(self)
         self.socket = socket
-        self.logfilePath = ''
 
     def run(self):
         writeSocket.listen(1)
@@ -69,29 +68,32 @@ class ClientThreadWrite(Thread):
                 self.addToLogfile('Bot', answer)
                 connection.send(answer.encode('utf-8'))
             except queue.Empty:
-                userInput = "none"
+                userInput = 'none'
                 lock.release()
                 time.sleep(2)
             except KeyError:
                 pass
             except:
                 pass
-        print("Chat thread ended")
+        print('Chat thread ended')
         self.endLogfile()
 
     def createLogfile(self, ip):
-        START_TIME = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
-        FILE_NAME = '{}_{}.txt'.format(START_TIME, ip.replace('.', ''))
-        self.logfilePath = 'chatBot/server/logs/{}'.format(FILE_NAME)
-        logging.basicConfig(filename=self.logfilePath, level=logging.INFO, format='%(message)s')
-        logging.info('Start time: {}'.format(START_TIME))
+        START_TIME = datetime.now()
+        FILE_NAME = '{}_{}_{}.txt'.format(START_TIME.strftime('%d-%m-%Y_%H-%M-%S'), ip.replace('.', ''), self.socket.fileno())
+        FILE_PATH = 'chatBot/server/logs/{}'.format(FILE_NAME)
+        logging.basicConfig(filename=FILE_PATH, level=logging.INFO, format='%(message)s')
+        logging.info('Start: {}'.format(START_TIME.strftime('%d/%m/%Y %H:%M:%S')))
+        logging.info('--------------------------')
 
     def addToLogfile(self, speaker, message):
-        logging.info('{}: {}'.format(speaker, message))
+        TIME = datetime.now().strftime('%H:%M:%S')
+        logging.info('{} | {}: {}'.format(TIME, speaker, message))
 
     def endLogfile(self):
-        END_TIME = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
-        logging.info('End time: {}'.format(END_TIME))
+        END_TIME = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        logging.info('--------------------------')
+        logging.info('End: {}'.format(END_TIME))
         sys.exit()
 
 
@@ -111,7 +113,7 @@ writeSocket.bind(('', settings.TCP_PORT_WRITE))
 threads = []
 while True:
     readSocket.listen(6)
-    print("Waiting for incoming connections on {}:{}\n".format(
+    print('Waiting for incoming connections on {}:{}\n'.format(
         settings.TCP_IP, settings.TCP_PORT_READ))
     (connection, (ip, port)) = readSocket.accept()
 
@@ -119,7 +121,7 @@ while True:
     sendqueues[connection.fileno()] = queue.Queue()
     lock.release()
 
-    print("New thread with fileno:{}".format(connection.fileno()))
+    print('New thread with fileno:{}'.format(connection.fileno()))
 
     readThread = ClientThreadRead(connection, ip, port)
     readThread.daemon = True
@@ -134,4 +136,4 @@ while True:
 
 for t in threads:
     t.join()
-    print(">>>>>>>>>> END <<<<<<<<<<")
+    print('>>>>>>>>>> END <<<<<<<<<<')

@@ -11,8 +11,6 @@ accept_input = False
 # ChatBot name
 BOT_NAME = 'CV-Bot'
 # Users name
-USER_NAME = 'Bruger'
-# Waiting message
-WAITING = 'venter på svar...'
+USER_NAME = 'User'
 # Quit message
-QUIT = 'Afslutter chat rum, forsæt god dag!'
+QUIT = 'Leaving chat room, have a good day!'
