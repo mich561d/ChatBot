@@ -91,7 +91,7 @@ class ClientThreadWrite(Thread):
     def createLogfile(self, ip):
         START_TIME = datetime.now()
         FILE_NAME = '{}_{}_{}.txt'.format(START_TIME.strftime('%d-%m-%Y_%H-%M-%S'), ip.replace('.', ''), self.socket.fileno())
-        FILE_PATH = 'chatBot/server/logs/{}'.format(FILE_NAME)
+        FILE_PATH = 'logs/{}'.format(FILE_NAME)
         self.logger = self.setupLogger(FILE_NAME.replace('.txt',''), FILE_PATH)
         self.logger.info('Start: {}'.format(START_TIME.strftime('%d/%m/%Y %H:%M:%S')))
         self.logger.info('--------------------------')
