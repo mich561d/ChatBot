@@ -1,0 +1,30 @@
+Start: 29/10/2019 16:20:09
+--------------------------
+Start: 29/10/2019 16:20:11
+--------------------------
+16:20:15 | User: Hello
+16:20:15 | Bot: Hey
+16:20:21 | User: Hello dear sir!
+16:20:21 | Bot: Whats up?
+16:20:42 | User: Can you please enlighten me about your opening times
+16:20:42 | Bot: Mon-Thur: 09.00 - 17.00, Fri: 09.00 - 16.00 Sat: Lukket, Sun: 10.00 - 14.00
+16:21:13 | User: Would you be a gentleman and tell me about your email?
+16:21:13 | Bot: You can call me CV-Bot.
+16:21:19 | User: EMAIL!
+16:21:19 | Bot: Hi there, how can I help?
+16:21:27 | User: GIVE ME YOUR MOTHERFUCKING EMAIL
+16:21:27 | Bot: Phone: +45 7010 4343, Email: NoneOfYourFuckingBusiness@Goodbye.dk
+16:21:35 | User: Many thanks
+16:21:35 | Bot: Hello!
+16:21:49 | User: BYE YOU LITTLE PIECE OF ****!!!!
+16:21:49 | Bot: Invalid sentence
+16:21:51 | User: exit
+--------------------------
+End: 29/10/2019 16:21:51
+16:21:58 | User: well that was nice
+16:21:58 | Bot: Hello!
+16:22:02 | User: bye
+16:22:02 | Bot: Hi there, how can I help?
+16:22:10 | User: exit
+--------------------------
+End: 29/10/2019 16:22:10

@@ -1,0 +1,13 @@
+Start: 30/10/2019 12:45:04
+--------------------------
+12:45:08 | User: hello
+12:45:08 | Bot: Good to see you again!
+12:46:14 | User: what is your number?
+12:46:14 | Bot: Phone: +45 7010 4343, Email: NoneOfYourFuckingBusiness@Goodbye.dk
+12:46:18 | User: thank you
+12:46:18 | Bot: Hi
+12:46:20 | User: bye
+12:46:20 | Bot: Hi there, how can I help?
+12:46:26 | User: exit
+--------------------------
+End: 30/10/2019 12:46:26

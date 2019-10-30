@@ -48,6 +48,7 @@ class ClientThreadWrite(Thread):
     def __init__(self, socket):
         Thread.__init__(self)
         self.socket = socket
+        self.logger = None
 
     def run(self):
         writeSocket.listen(1)
@@ -78,22 +79,31 @@ class ClientThreadWrite(Thread):
         print('Chat thread ended')
         self.endLogfile()
 
+    def setupLogger(self, name, log_file, level=logging.INFO):
+        formatter = logging.Formatter('%(message)s')
+        handler = logging.FileHandler(log_file)        
+        handler.setFormatter(formatter)
+        logger = logging.getLogger(name)
+        logger.setLevel(level)
+        logger.addHandler(handler)
+        return logger
+
     def createLogfile(self, ip):
         START_TIME = datetime.now()
         FILE_NAME = '{}_{}_{}.txt'.format(START_TIME.strftime('%d-%m-%Y_%H-%M-%S'), ip.replace('.', ''), self.socket.fileno())
         FILE_PATH = 'chatBot/server/logs/{}'.format(FILE_NAME)
-        logging.basicConfig(filename=FILE_PATH, level=logging.INFO, format='%(message)s')
-        logging.info('Start: {}'.format(START_TIME.strftime('%d/%m/%Y %H:%M:%S')))
-        logging.info('--------------------------')
+        self.logger = self.setupLogger(FILE_NAME.replace('.txt',''), FILE_PATH)
+        self.logger.info('Start: {}'.format(START_TIME.strftime('%d/%m/%Y %H:%M:%S')))
+        self.logger.info('--------------------------')
 
     def addToLogfile(self, speaker, message):
         TIME = datetime.now().strftime('%H:%M:%S')
-        logging.info('{} | {}: {}'.format(TIME, speaker, message))
+        self.logger.info('{} | {}: {}'.format(TIME, speaker, message))
 
     def endLogfile(self):
         END_TIME = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
-        logging.info('--------------------------')
-        logging.info('End: {}'.format(END_TIME))
+        self.logger.info('--------------------------')
+        self.logger.info('End: {}'.format(END_TIME))
         sys.exit()
 
 
