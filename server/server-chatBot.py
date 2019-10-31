@@ -53,8 +53,6 @@ class ClientThreadWrite(Thread):
         self.create_log_file(ip)
         self.add_to_log_file('Bot', settings.WELCOME_MESSAGE)
         connection.sendall(str.encode(settings.WELCOME_MESSAGE))
-        
-
         while True:
             try:
                 lock.acquire()
