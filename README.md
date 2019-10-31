@@ -1,7 +1,7 @@
 # 4th semester exam project - ChatBot
 Create by Jesper C. & Michael Due P.
 
-Last updated: 30th of October, 2019
+Last updated: 31th of October, 2019
 
 ## Explanation of Project
 This project was developed as a exam project for 4. semester in Python.
@@ -61,9 +61,9 @@ Edit settings files and then:
 ## Development environment :
 - Windows 10 Pro
 - Windown CMD (Server / Brain)
-- Git Bash (Client)
 - Python 3.6.9 (Server / Brain)
-- Python 3.7 (Client)
+- Git Bash (Client)
+- Python 3.7.3 (Client)
 - Visual Studio Code v1.39.2
 
 ## Proof of concept (Danish)
