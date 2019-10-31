@@ -28,7 +28,7 @@ class ClientThreadRead(Thread):
         while True:
             try:
                 userInput = self.socket.recv(2048).decode('utf-8')
-                print('{} | User-{}: {}'.format(self.getCurrentDate(),
+                print('{} | User-{}: {}'.format(datetime.now().strftime('%d/%m/%Y-%H:%M:%S'),
                                                 self.socket.fileno(), userInput))
                 lock.acquire()
                 sendqueues[self.socket.fileno()].put(userInput)
@@ -38,9 +38,6 @@ class ClientThreadRead(Thread):
                     sys.exit()
             except:
                 pass
-
-    def getCurrentDate(self):
-        return datetime.now().strftime('%d/%m/%Y-%H:%M:%S')
 
 
 class ClientThreadWrite(Thread):
@@ -54,19 +51,19 @@ class ClientThreadWrite(Thread):
         writeSocket.listen(1)
         (connection, (ip, port)) = writeSocket.accept()
         connection.sendall(str.encode(settings.WELCOME_MESSAGE))
-        self.createLogfile(ip)
+        self.create_log_file(ip)
 
         while True:
             try:
                 lock.acquire()
                 userInput = sendqueues[self.socket.fileno()].get(False)
                 lock.release()
-                self.addToLogfile('User', userInput)
+                self.add_to_log_file('User', userInput)
                 if userInput == 'exit':
                     print('Write: Client ended sessions')
-                    self.endLogfile()
+                    self.end_log_file()
                 answer = brain.chat(userInput)
-                self.addToLogfile('Bot', answer)
+                self.add_to_log_file('Bot', answer)
                 connection.send(answer.encode('utf-8'))
             except queue.Empty:
                 userInput = 'none'
@@ -77,30 +74,33 @@ class ClientThreadWrite(Thread):
             except:
                 pass
         print('Chat thread ended')
-        self.endLogfile()
+        self.end_log_file()
 
-    def setupLogger(self, name, log_file, level=logging.INFO):
+    def setup_logger(self, name, log_file, level=logging.INFO):
         formatter = logging.Formatter('%(message)s')
-        handler = logging.FileHandler(log_file)        
+        handler = logging.FileHandler(log_file)
         handler.setFormatter(formatter)
         logger = logging.getLogger(name)
         logger.setLevel(level)
         logger.addHandler(handler)
         return logger
 
-    def createLogfile(self, ip):
+    def create_log_file(self, ip):
         START_TIME = datetime.now()
-        FILE_NAME = '{}_{}_{}.txt'.format(START_TIME.strftime('%d-%m-%Y_%H-%M-%S'), ip.replace('.', ''), self.socket.fileno())
+        FILE_NAME = '{}_{}_{}.txt'.format(START_TIME.strftime(
+            '%d-%m-%Y_%H-%M-%S'), ip.replace('.', ''), self.socket.fileno())
         FILE_PATH = 'logs/{}'.format(FILE_NAME)
-        self.logger = self.setupLogger(FILE_NAME.replace('.txt',''), FILE_PATH)
-        self.logger.info('Start: {}'.format(START_TIME.strftime('%d/%m/%Y %H:%M:%S')))
+        self.logger = self.setup_logger(
+            FILE_NAME.replace('.txt', ''), FILE_PATH)
+        self.logger.info('Start: {}'.format(
+            START_TIME.strftime('%d/%m/%Y %H:%M:%S')))
         self.logger.info('--------------------------')
 
-    def addToLogfile(self, speaker, message):
+    def add_to_log_file(self, speaker, message):
         TIME = datetime.now().strftime('%H:%M:%S')
         self.logger.info('{} | {}: {}'.format(TIME, speaker, message))
 
-    def endLogfile(self):
+    def end_log_file(self):
         END_TIME = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         self.logger.info('--------------------------')
         self.logger.info('End: {}'.format(END_TIME))

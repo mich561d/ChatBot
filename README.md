@@ -29,10 +29,13 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 
 ### Core Features
 - [x] Client/Server architecture
-- [ ] Client-based GUI
-- [ ] Server-based GUI
-- [ ] Intern-based GUI
 - [x] TensorFlow integration
+- [x] Logging of conversations
+- [ ] Bunch of start data
+- [ ] Self-learning of log files
+- [ ] Matlib-plot graphs
+- [ ] Client-based GUI
+- [ ] Intern-based GUI
 - [ ] Multi-language supported
 
 ## Installation of Project
