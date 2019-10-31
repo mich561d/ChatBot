@@ -50,8 +50,10 @@ class ClientThreadWrite(Thread):
     def run(self):
         writeSocket.listen(1)
         (connection, (ip, port)) = writeSocket.accept()
-        connection.sendall(str.encode(settings.WELCOME_MESSAGE))
         self.create_log_file(ip)
+        self.add_to_log_file('Bot', settings.WELCOME_MESSAGE)
+        connection.sendall(str.encode(settings.WELCOME_MESSAGE))
+        
 
         while True:
             try:

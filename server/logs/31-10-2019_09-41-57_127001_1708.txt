@@ -1,0 +1,12 @@
+Start: 31/10/2019 09:41:57
+--------------------------
+09:41:57 | Bot: Hello! My name is CV-Bot :) What can I help you with?
+09:42:17 | User: Hello dear, could you be nice and tell me what time do you open?
+09:42:17 | Bot: Phone: +45 7010 4343, Email: NoneOfYourFuckingBusiness@Goodbye.dk
+09:42:35 | User: ehm... I said I would like to know when do you open?
+09:42:35 | Bot: Mon-Thur: 09.00 - 17.00, Fri: 09.00 - 16.00 Sat: Lukket, Sun: 10.00 - 14.00
+09:42:41 | User: Thank you little sir
+09:42:41 | Bot: I'm at your service
+09:42:45 | User: exit
+--------------------------
+End: 31/10/2019 09:42:45
