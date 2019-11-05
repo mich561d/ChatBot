@@ -6,6 +6,7 @@ import time
 import queue
 import threading
 import logging
+import traceback
 
 from threading import Thread
 from socketserver import ThreadingMixIn
@@ -22,6 +23,7 @@ class ClientThreadRead(Thread):
         self.socket = socket
         self.ip = ip
         self.port = port
+        self.errorLogger = None
 
     def run(self):
         print('Thread ready at {}:{}\n'.format(self.ip, self.port))
@@ -36,8 +38,11 @@ class ClientThreadRead(Thread):
                 if userInput == 'exit':
                     print('Read: Client ended sessions')
                     sys.exit()
-            except:
-                pass
+            except Exception:
+                if self.errorLogger == None:
+                    self.errorLogger = setup_logger(level=logging.ERROR)
+                self.errorLogger.exception('Read | {} | {}'.format(self.ip, self.socket.fileno()))
+                sys.exit()
 
 
 class ClientThreadWrite(Thread):
@@ -45,7 +50,8 @@ class ClientThreadWrite(Thread):
     def __init__(self, socket):
         Thread.__init__(self)
         self.socket = socket
-        self.logger = None
+        self.chatLogger = None
+        self.errorLogger = None
 
     def run(self):
         writeSocket.listen(1)
@@ -69,42 +75,47 @@ class ClientThreadWrite(Thread):
                 userInput = 'none'
                 lock.release()
                 time.sleep(2)
-            except KeyError:
-                pass
-            except:
-                pass
+            except Exception:
+                if self.errorLogger == None:
+                    self.errorLogger = setup_logger(level=logging.ERROR)
+                self.errorLogger.exception('Write | {} | {}'.format(ip, connection.fileno()))
+                self.end_log_file()
         print('Chat thread ended')
         self.end_log_file()
-
-    def setup_logger(self, name, log_file, level=logging.INFO):
-        formatter = logging.Formatter('%(message)s')
-        handler = logging.FileHandler(log_file)
-        handler.setFormatter(formatter)
-        logger = logging.getLogger(name)
-        logger.setLevel(level)
-        logger.addHandler(handler)
-        return logger
 
     def create_log_file(self, ip):
         START_TIME = datetime.now()
         FILE_NAME = '{}_{}_{}.txt'.format(START_TIME.strftime(
             '%d-%m-%Y_%H-%M-%S'), ip.replace('.', ''), self.socket.fileno())
         FILE_PATH = 'logs/{}'.format(FILE_NAME)
-        self.logger = self.setup_logger(
-            FILE_NAME.replace('.txt', ''), FILE_PATH)
-        self.logger.info('Start: {}'.format(
+        self.chatLogger = setup_logger(name=FILE_NAME.replace('.txt', ''), log_file=FILE_PATH)
+        self.chatLogger.info('Start: {}'.format(
             START_TIME.strftime('%d/%m/%Y %H:%M:%S')))
-        self.logger.info('--------------------------')
+        self.chatLogger.info('--------------------------')
 
     def add_to_log_file(self, speaker, message):
         TIME = datetime.now().strftime('%H:%M:%S')
-        self.logger.info('{} | {}: {}'.format(TIME, speaker, message))
+        self.chatLogger.info('{} | {}: {}'.format(TIME, speaker, message))
 
     def end_log_file(self):
         END_TIME = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
-        self.logger.info('--------------------------')
-        self.logger.info('End: {}'.format(END_TIME))
+        self.chatLogger.info('--------------------------')
+        self.chatLogger.info('End: {}'.format(END_TIME))
         sys.exit()
+
+
+def setup_logger(name='error_log', log_file='error_log.txt', level=logging.INFO):
+    formatter = None
+    if name == 'error_log':
+        formatter = logging.Formatter('\n%(asctime)s | %(message)s')
+    else:
+        formatter = logging.Formatter('%(message)s')
+    handler = logging.FileHandler(log_file)
+    handler.setFormatter(formatter)
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.addHandler(handler)
+    return logger
 
 
 lock = threading.Lock()
@@ -119,6 +130,7 @@ writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 writeSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 writeSocket.bind(('', settings.TCP_PORT_WRITE))
 
+connectionLogger = setup_logger()
 
 threads = []
 while True:
@@ -131,6 +143,7 @@ while True:
     sendqueues[connection.fileno()] = queue.Queue()
     lock.release()
 
+    connectionLogger.info('A connection was made | {} | {}'.format(ip, connection.fileno()))
     print('New thread with fileno:{}'.format(connection.fileno()))
 
     readThread = ClientThreadRead(connection, ip, port)
