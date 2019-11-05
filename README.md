@@ -1,7 +1,7 @@
 # 4th semester exam project - ChatBot
 Create by Jesper C. & Michael Due P.
 
-Last updated: 31th of October, 2019
+Last updated: 5th of November, 2019
 
 ## Explanation of Project
 This project was developed as a exam project for 4. semester in Python.
@@ -33,7 +33,7 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 - [x] Logging of conversations
 - [ ] Bunch of start data
 - [ ] Self-learning of log files
-- [ ] Matlib-plot graphs
+- [x] Matlib-plot graphs (some)
 - [ ] Client-based GUI
 - [ ] Intern-based GUI
 - [ ] Multi-language supported
