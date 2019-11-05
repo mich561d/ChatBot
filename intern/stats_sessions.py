@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import sessions
 import traceback
+import data_sessions as data
 
 
-def chat_interval(year, month, week, day):
+def chat_interval(year=0, month=0, week=0, day=0):
     years = []
     months = []
     weeks = []
@@ -12,31 +12,31 @@ def chat_interval(year, month, week, day):
     try:
         # Gets specific year or all years
         if year == 0:
-            for temp_year in sessions.INTERVALS.keys():
+            for temp_year in data.SESSIONS.keys():
                 years.append(temp_year)
         else:
             years.append(year)
         # Gets specific month or all month
         if month == 0:
-            for temp_year in sessions.INTERVALS.keys():
-                for temp_month in sessions.INTERVALS[temp_year].keys():
+            for temp_year in data.SESSIONS.keys():
+                for temp_month in data.SESSIONS[temp_year].keys():
                     months.append(temp_month)
         else:
             months.append(month)
         # Gets specific week or all week
         if week == 0:
-            for temp_year in sessions.INTERVALS.keys():
-                for temp_month in sessions.INTERVALS[temp_year].keys():
-                    for temp_week in sessions.INTERVALS[temp_year][temp_month].keys():
+            for temp_year in data.SESSIONS.keys():
+                for temp_month in data.SESSIONS[temp_year].keys():
+                    for temp_week in data.SESSIONS[temp_year][temp_month].keys():
                         weeks.append(temp_week)
         else:
             weeks.append(week)
         # Gets specific day or all day
         if day == 0:
-            for temp_year in sessions.INTERVALS.keys():
-                for temp_month in sessions.INTERVALS[temp_year].keys():
-                    for temp_week in sessions.INTERVALS[temp_year][temp_month].keys():
-                        for temp_day in sessions.INTERVALS[temp_year][temp_month][temp_week].keys():
+            for temp_year in data.SESSIONS.keys():
+                for temp_month in data.SESSIONS[temp_year].keys():
+                    for temp_week in data.SESSIONS[temp_year][temp_month].keys():
+                        for temp_day in data.SESSIONS[temp_year][temp_month][temp_week].keys():
                             days.append(temp_day)
         else:
             days.append(week)
@@ -47,8 +47,8 @@ def chat_interval(year, month, week, day):
                 for temp_week in weeks:
                     for temp_day in days:
                         try:
-                            for temp_hour in sessions.INTERVALS[temp_year][temp_month][temp_week][temp_day].keys():
-                                temp_list = sessions.INTERVALS[temp_year][
+                            for temp_hour in data.SESSIONS[temp_year][temp_month][temp_week][temp_day].keys():
+                                temp_list = data.SESSIONS[temp_year][
                                     temp_month][temp_week][temp_day][temp_hour]
                                 temp_sum = sum(temp_list)
                                 temp_len = len(temp_list)
@@ -72,7 +72,7 @@ def chat_interval(year, month, week, day):
             min_sessions[temp_counter] = temp_session[2]
             temp_counter += 1
 
-        title = 'Average of chat sessions in minutes per hour of the day'
+        title = 'Average of chat data in minutes per hour of the day'
         subtitle = 'Years: {} | Month: {} | Weeks: {} | Days: {}'.format(
             years, months, weeks, days)
         x_label = 'Hours of the day'
@@ -120,4 +120,5 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
     plt.show()
 
 
-chat_interval(0, 0, 0, 0)
+# TODO: Remove
+chat_interval()

@@ -1,6 +1,4 @@
-# INTERVALS[YEAR][Month][Week][Day][Hours][Interval]
-# INTERVALS[2019][10][44][31][13]
-INTERVALS = {
+SESSIONS = {
     2019: {
         10: {
             44: {
