@@ -11,15 +11,33 @@ def chatBot_learing_rate(isYear=True):
     try:
         plot_data = {}
         if isYear:
-            pass
+            # Getting year
+            this_year = dt.datetime.now().year
+            months_in_year = 12
+            # Create plot data
+            for month in range(1, months_in_year+1):
+                print('Month: {}'.format(month))
+                asked = 0
+                answered = 0
+                for day in range(1, monthrange(this_year, month)[1]+1):
+                    try:
+                        print('Day: {}'.format(day))
+                        temp_list = data.LINES[this_year][month][day]
+                        for temp_chat in temp_list:
+                            asked += temp_chat['asked']
+                            answered += temp_chat['answered']
+                    except KeyError:
+                        pass
+                percentage = 100 * float(answered)/float(asked) if asked > 0 else 0
+                plot_data.setdefault(month, percentage)
         else:
-            # Getting last month
+            # Getting date
             now = dt.datetime.now()
             this_year = now.year
             last_month = now.month - 1
             days_in_month = monthrange(this_year, last_month)[1]
             # Create plot data
-            for i in range(days_in_month):
+            for i in range(1, days_in_month+1):
                 try:
                     temp_list = data.LINES[this_year][last_month][i]
                     asked = 0
@@ -28,9 +46,9 @@ def chatBot_learing_rate(isYear=True):
                         asked += temp_chat['asked']
                         answered += temp_chat['answered']
                     percentage = 100 * float(answered)/float(asked)
-                    plot_data.setdefault(i+1, percentage)
+                    plot_data.setdefault(i, percentage)
                 except KeyError:
-                    plot_data.setdefault(i+1, 0)
+                    plot_data.setdefault(i, 0)
 
         days_in_month_list = list(plot_data.keys())
         percentage_answered = list(plot_data.values())
@@ -75,5 +93,5 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
 
 
 # TODO: Remove
-chatBot_learing_rate(False)
+# chatBot_learing_rate(False)
 chatBot_learing_rate()
