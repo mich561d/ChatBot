@@ -39,7 +39,7 @@ def chat_interval(year=0, month=0, week=0, day=0):
                         for temp_day in data.SESSIONS[temp_year][temp_month][temp_week].keys():
                             days.append(temp_day)
         else:
-            days.append(week)
+            days.append(day)
         # Create plot data
         plot_data = {}
         for temp_year in years:
@@ -122,3 +122,4 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
 
 # TODO: Remove
 chat_interval()
+chat_interval(2019, 10, 44, 31)

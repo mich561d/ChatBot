@@ -16,19 +16,17 @@ def chatBot_learing_rate(isYear=True):
             months_in_year = 12
             # Create plot data
             for month in range(1, months_in_year+1):
-                print('Month: {}'.format(month))
                 asked = 0
                 answered = 0
                 for day in range(1, monthrange(this_year, month)[1]+1):
                     try:
-                        print('Day: {}'.format(day))
                         temp_list = data.LINES[this_year][month][day]
-                        for temp_chat in temp_list:
-                            asked += temp_chat['asked']
-                            answered += temp_chat['answered']
+                        asked += temp_list['asked']
+                        answered += temp_list['answered']
                     except KeyError:
                         pass
-                percentage = 100 * float(answered)/float(asked) if asked > 0 else 0
+                percentage = 100 * float(answered) / \
+                    float(asked) if asked > 0 else 0
                 plot_data.setdefault(month, percentage)
         else:
             # Getting date
@@ -40,11 +38,8 @@ def chatBot_learing_rate(isYear=True):
             for i in range(1, days_in_month+1):
                 try:
                     temp_list = data.LINES[this_year][last_month][i]
-                    asked = 0
-                    answered = 0
-                    for temp_chat in temp_list:
-                        asked += temp_chat['asked']
-                        answered += temp_chat['answered']
+                    asked = temp_list['asked']
+                    answered = temp_list['answered']
                     percentage = 100 * float(answered)/float(asked)
                     plot_data.setdefault(i, percentage)
                 except KeyError:
@@ -54,7 +49,7 @@ def chatBot_learing_rate(isYear=True):
         percentage_answered = list(plot_data.values())
 
         title = 'Learning rate of the chatbot'
-        subtitle = 'Past Year' if isYear else 'Past Month'
+        subtitle = 'This Year' if isYear else 'Past Month'
         x_label = 'Months' if isYear else 'Days'
         y_label = 'Correct answers in procetage'
         x_max = 12 if isYear else days_in_month
@@ -93,5 +88,5 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
 
 
 # TODO: Remove
-# chatBot_learing_rate(False)
+chatBot_learing_rate(False)
 chatBot_learing_rate()
