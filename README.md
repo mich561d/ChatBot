@@ -34,15 +34,14 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 - [ ] Bunch of start data
 - [ ] Self-learning of log files
 - [ ] Matlib-plot graphs
-    - [x] Chattens tidsvarihed
-    - [ ] Hvornår der er aktivitet og aktivitetsniveauet 
-    - [ ] Hvor lang tid TensorFlow bruger på at træne sig selv
-    - [ ] Hvor lang tid TensorFlow bruger på at danne svar
-    - [x] Hvor tit TensorFlow ikke kan komme frem til et godt nok svar
-    - [ ] Hvilke tags der bliver brugt mest
-    - [ ] Hvor kunderne kommer fra
-    - [ ] Hvor mange gange samme kunde kommer ind
-    - [ ] Ratings fra brugerne
+    - [x] Time intervals of chats
+    - [ ] When is there chat activity and what is the activity level 
+    - [ ] How long does TensorFlow use to train it self
+    - [x] How often can TensorFlow not respond
+    - [ ] What tags is most used
+    - [ ] Where does the customers come from
+    - [ ] How many times does a customer chat
+    - [ ] Ratings from customers
 - [ ] Client-based GUI
 - [ ] Intern-based GUI
 - [ ] Multi-language supported
