@@ -30,8 +30,15 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 ### Core Features
 - [x] Client/Server architecture
 - [x] TensorFlow integration
-- [x] Logging of conversations
-- [ ] Bunch of start data
+- [ ] Logging
+    - [x] Logging of conversations
+    - [x] Logging of exceptions
+    - [x] Logging of Connections
+    - [ ] Logging of TensorFlow Learning time
+- [ ] Data
+    - [x] Common data
+    - [ ] Camping data
+    - [ ] Bunch of data
 - [ ] Self-learning of log files
 - [ ] Matlib-plots
     - [x] Time intervals of chats
@@ -44,7 +51,7 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [ ] Ratings from customers
 - [ ] Client-based GUI
 - [ ] Intern-based GUI
-- [ ] Multi-language supported
+- [ ] Multi-language
 
 ## Installation of Project
 Open command prompt and do : `git clone https://github.com/mich561d/ChatBot.git`
