@@ -42,7 +42,7 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 - [ ] Self-learning of log files
 - [ ] Matlib-plots
     - [x] Time intervals of chats
-    - [ ] When is there chat activity and what is the activity level 
+    - [x] When is there chat activity and what is the activity level 
     - [x] How long does TensorFlow use to train it self
     - [x] How often can TensorFlow not respond
     - [ ] What tags is most used
