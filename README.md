@@ -43,12 +43,12 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 - [ ] Matlib-plots
     - [x] Time intervals of chats
     - [ ] When is there chat activity and what is the activity level 
-    - [ ] How long does TensorFlow use to train it self
+    - [x] How long does TensorFlow use to train it self
     - [x] How often can TensorFlow not respond
     - [ ] What tags is most used
     - [ ] Where does the customers come from
     - [ ] How many times does a customer chat
-    - [ ] Ratings from customers
+    - [x] Ratings from customers
 - [ ] Client-based GUI
 - [ ] Intern-based GUI
 - [ ] Multi-language
