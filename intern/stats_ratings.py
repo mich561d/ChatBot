@@ -75,7 +75,7 @@ def chatBot_ratings():
 
 
 def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list_bad, y_list_poor, y_list_decent, y_list_good, y_list_best):
-    barWidth = 0.10
+    barWidth = 0.15
     # Creates title and subtitle
     plt.title(title, fontsize=12)
     plt.suptitle(subtitle, fontsize=10)

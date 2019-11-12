@@ -51,7 +51,7 @@ def chatBot_learing_rate(isYear=True):
         title = 'Learning rate of the chatbot'
         subtitle = 'This Year' if isYear else 'Past Month'
         x_label = 'Months' if isYear else 'Days'
-        y_label = 'Correct answers in procetage'
+        y_label = 'Correct answers in procentage'
         x_max = 12 if isYear else days_in_month
         y_max = 100
         create_graph(
@@ -82,8 +82,9 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
     plt.xticks(np.arange(1, x_max+1, step=1))
     plt.yticks(np.arange(y_max+1, step=5))
     # Creates bars
-    plt.bar(x_list, y_list, width=0.5, align='center', color='#8cff8c')
+    plt.bar(x_list, y_list, width=0.5, align='center', color='#8cff8c', label='Answered questions in %')
     # Shows plot
+    plt.legend()
     plt.show()
 
 

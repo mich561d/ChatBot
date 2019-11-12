@@ -113,10 +113,11 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
     plt.xticks(np.arange(x_max, step=1))
     plt.yticks(np.arange(y_max+1, step=3))
     # Creates bars
-    plt.bar(x_list, y_list_max, width=0.25, align='edge', color='#ff8c8c')
-    plt.bar(x_list, y_list_avg, width=0.25, align='center', color='#8cff8c')
-    plt.bar(x_list, y_list_min, width=-0.25, align='edge', color='#6bcffa')
+    plt.bar(x_list, y_list_max, width=0.25, align='edge', color='#ff8c8c', label='Maximum length')
+    plt.bar(x_list, y_list_avg, width=0.25, align='center', color='#8cff8c', label='Average length')
+    plt.bar(x_list, y_list_min, width=-0.25, align='edge', color='#6bcffa', label='Minimum length')
     # Shows plot
+    plt.legend()
     plt.show()
 
 
