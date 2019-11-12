@@ -11,11 +11,11 @@ import nltk
 
 def downloadNLTK():
     nltk.download()
-# downloadNLTK()
+#downloadNLTK()
 
 
 stemmer = LancasterStemmer()
-
+date_format = '%Y/%m/%d-%H:%M:%S'
 
 with open('intents.json') as file:
     data = json.load(file)
@@ -81,10 +81,31 @@ net = tflearn.regression(net)
 
 model = tflearn.DNN(net)
 
-currentDate = dt.datetime.now()
-if currentDate.day == 1 or 1 == 1:
+current_date = dt.datetime.now()
+if current_date.day == 1 or 1 == 1:
+    start_time = dt.datetime.now().strftime(date_format)
     model.fit(training, output, n_epoch=600, batch_size=8, show_metric=True)
     model.save('model.tflearn')
+    end_time = dt.datetime.now().strftime(date_format)
+
+    with open('.././intern/data_learning.json') as json_file:
+        json_data = json.load(json_file)
+
+    now = dt.datetime.now()
+    if now.year not in json_data.keys():
+        json_data[now.year] = {}
+    if now.month not in json_data[now.year].keys():
+        json_data[now.year][now.month] = {}
+    if now.day not in json_data[now.year][now.month].keys():
+        json_data[now.year][now.month][now.day] = {"start_time": "", "end_time": ""}
+
+    json_data[now.year][now.month][now.day]["start_time"] = start_time
+    json_data[now.year][now.month][now.day]["end_time"] = end_time  
+
+    json = json.dumps(json_data)
+    f = open(".././intern/data_learning.json", "w")
+    f.write(json)
+    f.close()
 else:
     try:
         model.load('model.tflearn')
