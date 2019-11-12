@@ -30,15 +30,16 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 ### Core Features
 - [x] Client/Server architecture
 - [x] TensorFlow integration
-- [x] Logging
+- [ ] Logging
     - [x] Logging of conversations
     - [x] Logging of exceptions
     - [x] Logging of Connections
-    - [x] Logging of TensorFlow Learning time
+    - [ ] Logging of TensorFlow Learning time
 - [ ] Data
     - [x] Common data
     - [ ] Camping data
     - [ ] Bunch of data
+    - [ ] Converting conversations to data
 - [ ] Self-learning of log files
 - [ ] Matlib-plots
     - [x] Time intervals of chats
