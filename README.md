@@ -40,6 +40,7 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [ ] Convert logging of conversations to JSON
     - [ ] Camping data
     - [ ] Bunch of data
+    - [ ] Converting conversations to data
 - [ ] Self-learning of log files
 - [ ] Matlib-plots
     - [x] Time intervals of chats
