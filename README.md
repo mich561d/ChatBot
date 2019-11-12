@@ -37,6 +37,7 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [x] Logging of TensorFlow Learning time
 - [ ] Data
     - [x] Common data
+    - [ ] Convert logging of conversations to JSON
     - [ ] Camping data
     - [ ] Bunch of data
 - [ ] Self-learning of log files
@@ -49,6 +50,7 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [ ] Where does the customers come from
     - [ ] How many times does a customer chat
     - [x] Ratings from customers
+- [ ] Create facade class
 - [ ] Client-based GUI
 - [ ] Intern-based GUI
 - [ ] Multi-language
