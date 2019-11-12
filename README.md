@@ -30,11 +30,11 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 ### Core Features
 - [x] Client/Server architecture
 - [x] TensorFlow integration
-- [ ] Logging
+- [x] Logging
     - [x] Logging of conversations
     - [x] Logging of exceptions
     - [x] Logging of Connections
-    - [ ] Logging of TensorFlow Learning time
+    - [x] Logging of TensorFlow Learning time
 - [ ] Data
     - [x] Common data
     - [ ] Camping data
