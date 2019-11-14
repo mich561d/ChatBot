@@ -1,0 +1,50 @@
+{
+    "2019": {
+        "10": {
+            "31": [
+                {
+                    "user": {
+                        "name": "Jesper",
+                        "ip": "127.0.0.1",
+                        "country": "Denmark",
+                        "fileno": "1401"
+                    },
+                    "start": "31/10/2019 09:41:57",
+                    "end": "31/10/2019 09:42:45",
+                    "rating": "5",
+                    "lines": [
+                        {
+                            "user_msg": "Could you be nice and tell me what time do you open?",
+                            "tag": "Contact"
+                        },
+                        {
+                            "user_msg": "dsfdgsfagdasfsdafdsafas",
+                            "tag": "Default"
+                        }
+                    ]
+                }
+            ]
+        },
+        "11": {
+            "1": [
+                {
+                    "user": {
+                        "name": "Jesper",
+                        "ip": "127.0.0.1",
+                        "country": "Denmark",
+                        "fileno": "1401"
+                    },
+                    "start": "01/11/2019 08:40:50",
+                    "end": "01/11/2019 08:43:41",
+                    "rating": "1",
+                    "lines": [
+                        {
+                            "user_msg": "Fuck you",
+                            "tag": "Default"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

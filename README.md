@@ -1,7 +1,7 @@
 # 4th semester exam project - ChatBot
 Create by Jesper C. & Michael Due P.
 
-Last updated: 12th of November, 2019
+Last updated: 14th of November, 2019
 
 ## Explanation of Project
 This project was developed as a exam project for 4. semester in Python.
