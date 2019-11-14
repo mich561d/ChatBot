@@ -7,8 +7,6 @@ class Window(Frame):
         self.master = master
         self.init_window()
 
-
-
     def show_message(self):
         user_message = inputField.get()
         string_to_display = "You: {}".format(user_message)
@@ -28,7 +26,7 @@ class Window(Frame):
         # creating a button instance
         sendButton = Button(self, text="Send", command=self.show_message)
 
-        inputField.grid(row=0, column=0)
+        # inputField.grid(row=0, column=0)
         sendButton.grid(row=0, column=1)
 
 root = Tk()
