@@ -26,10 +26,12 @@ class Window(Frame):
         # creating a button instance
         sendButton = Button(self, text="Send", command=self.show_message)
 
-        # inputField.grid(row=0, column=0)
+        inputField.grid(row=0, column=0)
         sendButton.grid(row=0, column=1)
 
 root = Tk()
+
+inputField = Entry(root)
 
 #size of the window
 root.geometry("1000x600")
