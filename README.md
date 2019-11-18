@@ -1,7 +1,7 @@
 # 4th semester exam project - ChatBot
 Create by Jesper C. & Michael Due P.
 
-Last updated: 14th of November, 2019
+Last updated: 18th of November, 2019
 
 ## Explanation of Project
 This project was developed as a exam project for 4. semester in Python.
@@ -26,6 +26,8 @@ A message intended for the client is put into the respective queue and the other
 Every queue access is wrapped up in a mutex lock to prevent clashes or race condition.
 
 **Note :** The chat messages gets displayed without any proper alignment on the terminal screen. Sometimes they might clash with the command prompt. 
+
+**Note :** To run the GUI, run the test.py file
 
 ### Core Features
 - [x] Client/Server architecture
