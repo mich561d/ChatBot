@@ -67,30 +67,45 @@ def generate_single_data(year, month, day):
     end = (date + td(seconds=r(45, 500))).strftime('%d/%m/%Y %H:%M:%S')
     rating = r(1, 5)
     lines = generate_lines(r(1, 10))
-    print('{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(
-        name, ip, country, fileno, start, end, rating, lines)) # TODO: Don't print, buuuut create Objec'tós! PLEASE!
+    data = {
+        "user": {
+            "name": name,
+            "ip": ip,
+            "country": country,
+            "fileno": fileno
+        },
+        "start": start,
+        "end": end,
+        "rating": rating,
+        "lines": lines
+    }
+    return data
 
 
 def generate_data(persons_per_day_max=1):
+    start_time = dt.datetime.now()
     data = {}
     for year in YEARS:
         if year not in data.keys():
             data[year] = {}
-        print(year)
         for month in MONTHS:
             if month not in data[year].keys():
                 data[year][month] = {}
-            print(month)
             for day in range(1, mr(year, month)[1]+1):
                 if day not in data[year][month].keys():
                     data[year][month][day] = []
-                print(day)
                 for i in range(persons_per_day_max):
-                    print(i)
-                    #generate_single_data(year, month, day) #TODO Added to array
+                    print('{}/{}/{}-{}'.format(year, month, day, i))
+                    single_data = generate_single_data(year, month, day)
+                    data[year][month][day].append(single_data)
 
     with open('intern/data_test.json', 'w') as outfile:
         json.dump(data, outfile)
+
+    end_time = dt.datetime.now()
+    elapsed_time = end_time - start_time
+    print('Elapsed time (min, sec): {}'.format(
+        divmod(elapsed_time.days * 86400 + elapsed_time.seconds, 60)))
 
 
 generate_data()
