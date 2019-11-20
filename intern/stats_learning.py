@@ -28,7 +28,7 @@ def chatBot_learning_time():
                 between = end - start
                 minutes = between.total_seconds() / 60
                 plot_data.setdefault(i, minutes)
-            except KeyError as e:
+            except KeyError:
                 plot_data.setdefault(i, 0)
 
         days_in_month_list = list(plot_data.keys())

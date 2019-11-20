@@ -14,8 +14,8 @@ MONTHS = [10, 11]
 NAMES = ['Jesper', 'Michael', 'Mads', 'Magnus', 'Rasmus', 'Mathias',
          'Esben', 'Kim', 'Bjarne', 'Casper', 'Dennis', 'Daniel']
 
-MAX_USERS_PER_DAY = 7
-MIN_USERS_PER_DAY = 1
+ADDITIONAL_PERSONS_PER_DAY = 9
+MIN_PERSONS_PER_DAY = 4
 
 TAGS = ['greeting', 'goodbye', 'name', 'hours', 'contact', 'thanks', 'default']
 
@@ -110,4 +110,4 @@ def generate_data(persons_per_day_min=1, additional_persons_per_day=3):
         divmod(elapsed_time.days * 86400 + elapsed_time.seconds, 60)))
 
 
-generate_data()
+generate_data(MIN_PERSONS_PER_DAY, ADDITIONAL_PERSONS_PER_DAY)

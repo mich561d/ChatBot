@@ -4,18 +4,21 @@ import traceback
 import json
 import datetime as dt
 
+with open('./data_test.json') as json_file:
+    data = json.load(json_file)
+
 
 def chat_session_count(year=0, month=0):
     # Get year and month
     now = dt.datetime.now()
-    year = year if year != 0 else now.year
-    month = month if month != 0 else now.month
+    year = str(year) if year != 0 else str(now.year)
+    month = str(month) if month != 0 else str(now.month)
     # Create plot data
     plot_data = {}
-    for temp_day in data.SESSIONS[year][month]:
+    for temp_day in data[year][month].keys():
         try:
-            for temp_hour in data.SESSIONS[year][month][temp_day].keys():
-                temp_list = data.SESSIONS[year][month][temp_day][temp_hour]
+            for temp_hour in data[year][month][temp_day].keys(): #TODO get hour by start for each user in day array
+                temp_list = data[year][month][temp_day][temp_hour]
                 plot_data.setdefault(temp_hour, len(temp_list))
         except KeyError:
             pass

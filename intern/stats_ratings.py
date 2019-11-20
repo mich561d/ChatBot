@@ -5,6 +5,9 @@ import json
 import datetime as dt
 from calendar import monthrange
 
+with open('./data_test.json') as json_file:
+    data = json.load(json_file)
+
 
 def chatBot_ratings():
     try:
@@ -18,18 +21,28 @@ def chatBot_ratings():
         highest_rating = 0
         for i in range(1, days_in_month+1):
             try:
-                temp_list = data.RATINGS[this_year][this_month][i]
-                bad = temp_list[1]
-                poor = temp_list[2]
-                decent = temp_list[3]
-                good = temp_list[4]
-                best = temp_list[5]
-                highest_rating = bad if bad > highest_rating else highest_rating
-                highest_rating = poor if poor > highest_rating else highest_rating
-                highest_rating = decent if decent > highest_rating else highest_rating
-                highest_rating = good if good > highest_rating else highest_rating
-                highest_rating = best if best > highest_rating else highest_rating
-                plot_data.setdefault(i, [bad, poor, decent, good, best])
+                temp_list = data[str(this_year)][str(this_month)][str(i)]
+                bad = 0
+                poor = 0
+                decent = 0
+                good = 0
+                best = 0
+                for user in temp_list:
+                    rating = user['rating']
+                    if rating == 1:
+                        bad += 1
+                    elif rating == 2:
+                        poor += 1
+                    elif rating == 3:
+                        decent += 1
+                    elif rating == 4:
+                        good += 1
+                    else:
+                        best += 1
+                ratings = [bad, poor, decent, good, best]
+                highest_rating = max(ratings) if max(
+                    ratings) > highest_rating else highest_rating
+                plot_data.setdefault(i, ratings)
             except KeyError:
                 plot_data.setdefault(i, [0, 0, 0, 0, 0])
 
@@ -55,7 +68,7 @@ def chatBot_ratings():
         x_label = 'Days'
         y_label = 'Count of ratings'
         x_max = days_in_month
-        y_max = highest_rating + 10
+        y_max = highest_rating + 1
         create_graph(
             title,
             subtitle,
@@ -86,8 +99,8 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
     plt.xlabel(x_label, fontsize=10)
     plt.ylabel(y_label, fontsize=10)
     plt.tick_params(axis='both', which='major', labelsize=10)
-    plt.xticks([r for r in range(len(x_list))],np.arange(1, x_max+1, step=1))
-    plt.yticks(np.arange(y_max+1, step=5))
+    plt.xticks([r for r in range(len(x_list))], np.arange(1, x_max+1, step=1))
+    plt.yticks(np.arange(y_max+1, step=1))
     # Set position of bar on X axis
     r3 = np.arange(len(x_list))
     r2 = [x - barWidth for x in r3]
@@ -95,11 +108,16 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
     r4 = [x + barWidth for x in r3]
     r5 = [x + barWidth for x in r4]
     # Make the plot
-    plt.bar(r5, y_list_best, width=barWidth, align='center', color='#9feb34', label='Best')
-    plt.bar(r4, y_list_good, width=barWidth, align='center', color='#34ebeb', label='Good')
-    plt.bar(r3, y_list_decent, width=barWidth, align='center', color='#ebe534', label='Decent')
-    plt.bar(r2, y_list_poor, width=barWidth, align='center', color='#eb9334', label='Poor')
-    plt.bar(r1, y_list_bad, width=barWidth, align='center', color='#eb4034', label='Bad')
+    plt.bar(r5, y_list_best, width=barWidth,
+            align='center', color='#9feb34', label='Best')
+    plt.bar(r4, y_list_good, width=barWidth,
+            align='center', color='#34ebeb', label='Good')
+    plt.bar(r3, y_list_decent, width=barWidth,
+            align='center', color='#ebe534', label='Decent')
+    plt.bar(r2, y_list_poor, width=barWidth,
+            align='center', color='#eb9334', label='Poor')
+    plt.bar(r1, y_list_bad, width=barWidth,
+            align='center', color='#eb4034', label='Bad')
     # Shows plot
     plt.legend()
     plt.show()
