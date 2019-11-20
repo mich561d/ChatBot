@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import traceback
+import json
 import datetime as dt
 from calendar import monthrange
-import data_ratings as data
 
 
 def chatBot_ratings():

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import traceback
-import data_sessions as data
+import json
 
 
 def chat_interval(year=0, month=0, week=0, day=0):

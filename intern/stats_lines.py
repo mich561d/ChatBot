@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import traceback
+import json
 import datetime as dt
 from calendar import monthrange
-import data_lines as data
 
 
 def chatBot_learing_rate(isYear=True):

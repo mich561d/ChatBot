@@ -1,9 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import traceback
+import json
 import datetime as dt
 from calendar import monthrange
-import data_learning as data
+
+with open('./data_learning.json') as json_file:
+    data = json.load(json_file)
 
 
 def chatBot_learning_time():
@@ -18,13 +21,14 @@ def chatBot_learning_time():
         date_format = '%Y/%m/%d-%H:%M:%S'
         for i in range(1, days_in_month+1):
             try:
-                temp_list = data.TIME[this_year][this_month][i]
-                start = dt.datetime.strptime(temp_list['start_time'], date_format)
+                temp_list = data[str(this_year)][str(this_month)][str(i)]
+                start = dt.datetime.strptime(
+                    temp_list['start_time'], date_format)
                 end = dt.datetime.strptime(temp_list['end_time'], date_format)
                 between = end - start
                 minutes = between.total_seconds() / 60
                 plot_data.setdefault(i, minutes)
-            except KeyError:
+            except KeyError as e:
                 plot_data.setdefault(i, 0)
 
         days_in_month_list = list(plot_data.keys())
