@@ -82,7 +82,7 @@ def generate_single_data(year, month, day):
     return data
 
 
-def generate_data(persons_per_day_max=1):
+def generate_data(persons_per_day_min=1, additional_persons_per_day=3):
     start_time = dt.datetime.now()
     data = {}
     for year in YEARS:
@@ -94,6 +94,8 @@ def generate_data(persons_per_day_max=1):
             for day in range(1, mr(year, month)[1]+1):
                 if day not in data[year][month].keys():
                     data[year][month][day] = []
+                    persons_per_day_max = r(
+                        persons_per_day_min, persons_per_day_min + additional_persons_per_day)
                 for i in range(persons_per_day_max):
                     print('{}/{}/{}-{}'.format(year, month, day, i))
                     single_data = generate_single_data(year, month, day)
