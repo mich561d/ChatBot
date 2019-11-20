@@ -37,6 +37,9 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [x] Logging of exceptions
     - [x] Logging of Connections
     - [x] Logging of TensorFlow Learning time
+- [x] Test data
+    - [x] Test data generator
+    - [x] Test data
 - [ ] Data
     - [x] Common data
     - [ ] Convert logging of conversations to JSON
@@ -53,6 +56,7 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [ ] How many times does a customer chat
     - [x] Ratings from customers
 - [ ] Create facade class
+- [ ] Unit Test
 - [ ] Client-based GUI
 - [ ] Intern-based GUI
 - [ ] Multi-language
