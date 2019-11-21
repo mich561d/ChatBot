@@ -29,7 +29,7 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 
 **Note :** To run the GUI, run the test.py file
 
-**Note :** To run plots, run the files in cmd (etc. `python stats_laerning.py`)
+**Note :** To run plots, run the files in cmd (etc. `python stats_learning.py`)
 
 ### Core Features
 - [x] Client/Server architecture
