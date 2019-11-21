@@ -67,7 +67,7 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [x] GUI
     - [ ] Integrated
 - [ ] Intern-based GUI
-    - [ ] GUI
+    - [x] GUI
     - [ ] Integrated
 - [ ] Multi-language
     - [ ] Access to Google translate API
