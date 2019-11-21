@@ -14,12 +14,15 @@ def chat_session_count(year=0, month=0):
     year = str(year) if year != 0 else str(now.year)
     month = str(month) if month != 0 else str(now.month)
     # Create plot data
+    date_format = '%d/%m/%Y %H:%M:%S'
     plot_data = {}
     for temp_day in data[year][month].keys():
         try:
-            for temp_hour in data[year][month][temp_day].keys(): #TODO get hour by start for each user in day array
-                temp_list = data[year][month][temp_day][temp_hour]
-                plot_data.setdefault(temp_hour, len(temp_list))
+            for temp_user in data[year][month][temp_day]:
+                start_time = dt.datetime.strptime(temp_user['start'], date_format)
+                temp_hour = start_time.hour
+                value = plot_data.setdefault(temp_hour, 0)
+                plot_data.update({temp_hour: (value + 1)})
         except KeyError:
             pass
 
@@ -67,4 +70,3 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
 
 # TODO: Remove
 chat_session_count()
-chat_session_count(2019, 11)

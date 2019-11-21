@@ -1,7 +1,7 @@
 # 4th semester exam project - ChatBot
 Create by Jesper C. & Michael Due P.
 
-Last updated: 20th of November, 2019
+Last updated: 21th of November, 2019
 
 ## Explanation of Project
 This project was developed as a exam project for 4. semester in Python.
@@ -42,10 +42,11 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [x] Test data
 - [ ] Data
     - [x] Common data
-    - [ ] Convert logging of conversations to JSON
     - [ ] Camping data
     - [ ] Bunch of data
 - [ ] Self-learning of log files
+    - [ ] Convert logging of conversations to JSON
+    - [ ] Saving conversations to big JSON file
 - [ ] Matlib-plots
     - [x] Time intervals of chats
     - [x] When is there chat activity and what is the activity level 
@@ -56,10 +57,19 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [ ] How many times does a customer chat
     - [x] Ratings from customers
 - [ ] Create facade class
-- [ ] Unit Test
+- [ ] Test
+    - [ ] Unit test
+    - [ ] Integrations test
+    - [ ] User test
 - [ ] Client-based GUI
+    - [x] GUI
+    - [ ] Integrated
 - [ ] Intern-based GUI
+    - [ ] GUI
+    - [ ] Integrated
 - [ ] Multi-language
+    - [ ] Access to Google translate API
+    - [ ] Integrated with users country
 
 ## Installation of Project
 Open command prompt and do : `git clone https://github.com/mich561d/ChatBot.git`
