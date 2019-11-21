@@ -9,7 +9,7 @@ with open('./data_test.json') as json_file:
     data = json.load(json_file)
 
 
-def chatBot_learing_rate():
+def chatBot_common_tags():
     try:
         plot_data = {}
         # Getting date
@@ -21,27 +21,23 @@ def chatBot_learing_rate():
         for i in range(1, days_in_month+1):
             try:
                 temp_users = data[str(this_year)][str(this_month)][str(i)]
-                asked = 0
-                answered = 0
                 for temp_user in temp_users:
                     for temp_line in temp_user['lines']:
-                        asked += 1
-                        if temp_line['tag'] != 'default':
-                            answered += 1
-                percentage = 100 * float(answered)/float(asked)
-                plot_data.setdefault(i, percentage)
+                        tag = temp_line['tag']
+                        value = plot_data.setdefault(tag, 0)
+                        plot_data.update({tag: (value + 1)})
             except KeyError:
-                plot_data.setdefault(i, 0)
+                pass
 
-        days_in_month_list = list(plot_data.keys())
-        percentage_answered = list(plot_data.values())
+        common_tags_used = list(plot_data.keys())
+        times_used_per_tag = list(plot_data.values())
 
-        title = 'Learning rate of the chatbot'
+        title = 'Most common tags used'
         subtitle = 'This Month'
-        x_label = 'Days'
-        y_label = 'Correct answers in procentage'
-        x_max = days_in_month
-        y_max = 100
+        x_label = 'Tags'
+        y_label = 'Times used'
+        x_max = len(common_tags_used)
+        y_max = max(times_used_per_tag) + 5
         create_graph(
             title,
             subtitle,
@@ -49,8 +45,8 @@ def chatBot_learing_rate():
             y_label,
             x_max,
             y_max,
-            days_in_month_list,
-            percentage_answered
+            common_tags_used,
+            times_used_per_tag
         )
     except KeyError:
         traceback.print_exc()
@@ -63,19 +59,19 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
     # Creates grid
     plt.grid(color='g', linestyle='--', linewidth='0.2')
     # Creates axis
-    plt.axis([0, x_max+1, 0, y_max])
+    plt.axis([-1, x_max, 0, y_max])
     plt.xlabel(x_label, fontsize=10)
     plt.ylabel(y_label, fontsize=10)
     plt.tick_params(axis='both', which='major', labelsize=10)
-    plt.xticks(np.arange(1, x_max+1, step=1))
+    plt.xticks(np.arange(x_max+1, step=1))
     plt.yticks(np.arange(y_max+1, step=5))
     # Creates bars
     plt.bar(x_list, y_list, width=0.5, align='center',
-            color='#8cff8c', label='Answered questions in %')
+            color='#8cff8c', label='Times used')
     # Shows plot
     plt.legend()
     plt.show()
 
 
 # TODO: Remove
-chatBot_learing_rate()
+chatBot_common_tags()

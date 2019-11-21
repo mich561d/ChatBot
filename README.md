@@ -29,6 +29,8 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 
 **Note :** To run the GUI, run the test.py file
 
+**Note :** To run plots, run the files in cmd (etc. `python stats_laerning.py`)
+
 ### Core Features
 - [x] Client/Server architecture
 - [x] TensorFlow integration
@@ -52,9 +54,9 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [x] When is there chat activity and what is the activity level 
     - [x] How long does TensorFlow use to train it self
     - [x] How often can TensorFlow not respond
-    - [ ] What tags is most used
-    - [ ] Where does the customers come from
-    - [ ] How many times does a customer chat
+    - [x] What tags is most used
+    - [ ] Where does the customers come from (Top 10)
+    - [ ] How many times does a customer chat (Top 10)
     - [x] Ratings from customers
 - [ ] Create facade class
 - [ ] Test
