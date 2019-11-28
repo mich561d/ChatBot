@@ -1,6 +1,7 @@
 # Purpose of this file is to get all functions to work. Will be moved to demo.py once its done. There the proper architecture will be done.
 from tkinter import *
 from tkinter import messagebox
+from random import randint as r
 
 string_to_display = []
 
@@ -39,10 +40,15 @@ def show_message(self):
 
 def on_close():
     result = messagebox.askyesno('Rating', 'Were you happy with the conversation?')
-    print(result)
+    rating = 0
+    if result == True:
+        rating = r(3,5)
+    else:
+        rating = r(1,3)
     # Uncomment for no bad reviews :D
     # if result == True:
     #     root.destroy()
+    print(rating)
     root.destroy()
 
 root = Tk()
