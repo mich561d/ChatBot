@@ -1,7 +1,7 @@
 # 4th semester exam project - ChatBot
 Create by Jesper C. & Michael Due P.
 
-Last updated: 18th of November, 2019
+Last updated: 21th of November, 2019
 
 ## Explanation of Project
 This project was developed as a exam project for 4. semester in Python.
@@ -29,6 +29,8 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 
 **Note :** To run the GUI, run the test.py file
 
+**Note :** To run plots, run the files in cmd (etc. `python stats_learning.py`)
+
 ### Core Features
 - [x] Client/Server architecture
 - [x] TensorFlow integration
@@ -37,25 +39,39 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [x] Logging of exceptions
     - [x] Logging of Connections
     - [x] Logging of TensorFlow Learning time
+- [x] Test data
+    - [x] Test data generator
+    - [x] Test data
 - [ ] Data
     - [x] Common data
-    - [ ] Convert logging of conversations to JSON
     - [ ] Camping data
     - [ ] Bunch of data
 - [ ] Self-learning of log files
-- [ ] Matlib-plots
+    - [ ] Convert logging of conversations to JSON
+    - [ ] Saving conversations to big JSON file
+- [x] Matlib-plots
     - [x] Time intervals of chats
     - [x] When is there chat activity and what is the activity level 
     - [x] How long does TensorFlow use to train it self
     - [x] How often can TensorFlow not respond
-    - [ ] What tags is most used
-    - [ ] Where does the customers come from
-    - [ ] How many times does a customer chat
+    - [x] What tags is most used
+    - [x] Where does the customers come from (Top 10)
+    - [x] How many times does a customer chat (Top 10)
     - [x] Ratings from customers
 - [ ] Create facade class
+- [ ] Test
+    - [ ] Unit test
+    - [ ] Integrations test
+    - [ ] User test
 - [ ] Client-based GUI
+    - [x] GUI
+    - [ ] Integrated
 - [ ] Intern-based GUI
+    - [x] GUI
+    - [ ] Integrated
 - [ ] Multi-language
+    - [ ] Access to Google translate API
+    - [ ] Integrated with users country
 
 ## Installation of Project
 Open command prompt and do : `git clone https://github.com/mich561d/ChatBot.git`

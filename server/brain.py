@@ -11,7 +11,7 @@ import nltk
 
 def downloadNLTK():
     nltk.download()
-#downloadNLTK()
+# downloadNLTK()
 
 
 stemmer = LancasterStemmer()
@@ -92,15 +92,19 @@ if current_date.day == 1 or 1 == 1:
         json_data = json.load(json_file)
 
     now = dt.datetime.now()
-    if now.year not in json_data.keys():
-        json_data[now.year] = {}
-    if now.month not in json_data[now.year].keys():
-        json_data[now.year][now.month] = {}
-    if now.day not in json_data[now.year][now.month].keys():
-        json_data[now.year][now.month][now.day] = {"start_time": "", "end_time": ""}
+    now_year = str(now.year)
+    now_month = str(now.month)
+    now_day = str(now.day)
+    if now_year not in json_data.keys():
+        json_data[now_year] = {}
+    if now_month not in json_data[now_year].keys():
+        json_data[now_year][now_month] = {}
+    if now_day not in json_data[now_year][now_month].keys():
+        json_data[now_year][now_month][now_day] = {
+            "start_time": "", "end_time": ""}
 
-    json_data[now.year][now.month][now.day]["start_time"] = start_time
-    json_data[now.year][now.month][now.day]["end_time"] = end_time  
+    json_data[now_year][now_month][now_day]["start_time"] = start_time
+    json_data[now_year][now_month][now_day]["end_time"] = end_time
 
     json = json.dumps(json_data)
     f = open(".././intern/data_learning.json", "w")

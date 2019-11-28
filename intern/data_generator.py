@@ -14,8 +14,8 @@ MONTHS = [10, 11]
 NAMES = ['Jesper', 'Michael', 'Mads', 'Magnus', 'Rasmus', 'Mathias',
          'Esben', 'Kim', 'Bjarne', 'Casper', 'Dennis', 'Daniel']
 
-MAX_USERS_PER_DAY = 7
-MIN_USERS_PER_DAY = 1
+ADDITIONAL_PERSONS_PER_DAY = 9
+MIN_PERSONS_PER_DAY = 4
 
 TAGS = ['greeting', 'goodbye', 'name', 'hours', 'contact', 'thanks', 'default']
 
@@ -67,30 +67,47 @@ def generate_single_data(year, month, day):
     end = (date + td(seconds=r(45, 500))).strftime('%d/%m/%Y %H:%M:%S')
     rating = r(1, 5)
     lines = generate_lines(r(1, 10))
-    print('{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(
-        name, ip, country, fileno, start, end, rating, lines)) # TODO: Don't print, buuuut create Objec'tós! PLEASE!
+    data = {
+        "user": {
+            "name": name,
+            "ip": ip,
+            "country": country,
+            "fileno": fileno
+        },
+        "start": start,
+        "end": end,
+        "rating": rating,
+        "lines": lines
+    }
+    return data
 
 
-def generate_data(persons_per_day_max=1):
+def generate_data(persons_per_day_min=1, additional_persons_per_day=3):
+    start_time = dt.datetime.now()
     data = {}
     for year in YEARS:
         if year not in data.keys():
             data[year] = {}
-        print(year)
         for month in MONTHS:
             if month not in data[year].keys():
                 data[year][month] = {}
-            print(month)
             for day in range(1, mr(year, month)[1]+1):
                 if day not in data[year][month].keys():
                     data[year][month][day] = []
-                print(day)
+                    persons_per_day_max = r(
+                        persons_per_day_min, persons_per_day_min + additional_persons_per_day)
                 for i in range(persons_per_day_max):
-                    print(i)
-                    #generate_single_data(year, month, day) #TODO Added to array
+                    print('{}/{}/{}-{}'.format(year, month, day, i))
+                    single_data = generate_single_data(year, month, day)
+                    data[year][month][day].append(single_data)
 
     with open('intern/data_test.json', 'w') as outfile:
         json.dump(data, outfile)
 
+    end_time = dt.datetime.now()
+    elapsed_time = end_time - start_time
+    print('Elapsed time (min, sec): {}'.format(
+        divmod(elapsed_time.days * 86400 + elapsed_time.seconds, 60)))
 
-generate_data()
+
+generate_data(MIN_PERSONS_PER_DAY, ADDITIONAL_PERSONS_PER_DAY)

@@ -4,12 +4,14 @@ import traceback
 import json
 import datetime as dt
 from calendar import monthrange
+import collections
+import operator
 
-with open('./data_learning.json') as json_file:
+with open('./data_test.json') as json_file:
     data = json.load(json_file)
 
 
-def chatBot_learning_time():
+def chatBot_ip():
     try:
         plot_data = {}
         # Getting date
@@ -18,28 +20,32 @@ def chatBot_learning_time():
         this_month = now.month
         days_in_month = monthrange(this_year, this_month)[1]
         # Create plot data
-        date_format = '%Y/%m/%d-%H:%M:%S'
         for i in range(1, days_in_month+1):
             try:
-                temp_list = data[str(this_year)][str(this_month)][str(i)]
-                start = dt.datetime.strptime(
-                    temp_list['start_time'], date_format)
-                end = dt.datetime.strptime(temp_list['end_time'], date_format)
-                between = end - start
-                minutes = between.total_seconds() / 60
-                plot_data.setdefault(i, minutes)
+                temp_users = data[str(this_year)][str(this_month)][str(i)]
+                for temp_user in temp_users:
+                    ip = temp_user['user']['ip']
+                    value = plot_data.setdefault(ip, 0)
+                    plot_data.update({ip: (value + 1)})
             except KeyError:
-                plot_data.setdefault(i, 0)
+                pass
 
-        days_in_month_list = list(plot_data.keys())
-        time_spend = list(plot_data.values())
 
-        title = 'Learning time of the chatbot'
-        subtitle = 'This Month'
-        x_label = 'Days'
-        y_label = 'Minutes'
-        x_max = days_in_month
-        y_max = max(time_spend) + 2
+        sorted_data_list = sorted(plot_data.items(), key=operator.itemgetter(1), reverse=True)
+        sorted_data = collections.OrderedDict(sorted_data_list)
+        filtered_data = {}
+        for key in sorted_data.keys():
+            if len(filtered_data) < 10 and key != None:
+                filtered_data.update({key: sorted_data.get(key)})
+        common_ip = list(filtered_data.keys())
+        amount_of_activity = list(filtered_data.values())
+
+        title = 'Most common users by IP using the chatbot'
+        subtitle = 'Top 10'
+        x_label = 'IPs'
+        y_label = 'count of user activity'
+        x_max = len(common_ip)
+        y_max = max(amount_of_activity) + 5
         create_graph(
             title,
             subtitle,
@@ -47,8 +53,8 @@ def chatBot_learning_time():
             y_label,
             x_max,
             y_max,
-            days_in_month_list,
-            time_spend
+            common_ip,
+            amount_of_activity
         )
     except KeyError:
         traceback.print_exc()
@@ -61,19 +67,19 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
     # Creates grid
     plt.grid(color='g', linestyle='--', linewidth='0.2')
     # Creates axis
-    plt.axis([0, x_max+1, 0, y_max])
+    plt.axis([-1, x_max, 0, y_max])
     plt.xlabel(x_label, fontsize=10)
     plt.ylabel(y_label, fontsize=10)
     plt.tick_params(axis='both', which='major', labelsize=10)
-    plt.xticks(np.arange(1, x_max+1, step=1))
+    plt.xticks(np.arange(x_max+1, step=1))
     plt.yticks(np.arange(y_max+1, step=1))
     # Creates bars
     plt.bar(x_list, y_list, width=0.5, align='center',
-            color='#8cff8c', label='Time')
+            color='#8cff8c', label='Activity')
     # Shows plot
     plt.legend()
     plt.show()
 
 
 # TODO: Remove
-chatBot_learning_time()
+chatBot_ip()
