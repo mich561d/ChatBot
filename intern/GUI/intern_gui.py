@@ -1,8 +1,8 @@
 from tkinter import *
-from tkinter import messagebox
+from datetime import datetime
 
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = 1536
+HEIGHT = 864
 
 PLOTS_LABELS = ['Activity', 'Countries', 'Knowledge', 'Learning', 'Ratings', 'Sessions', 'Tags', 'Users']
 
@@ -36,8 +36,33 @@ top_frame_label = Label(top_frame, text='Intern System - Plots & Stats', bg=TOP_
 top_frame_label.pack(expand=True, fill='both')
 
 # Right Frame
-image_label = Label(right_frame)
-image_label.pack()
+upper_frame = Frame(right_frame, bg=RIGHT_FRAME_COLOR)
+upper_frame.place(relwidth=1, relheight=0.1, relx=0, rely=0)
+
+lower_frame = Frame(right_frame, bg=RIGHT_FRAME_COLOR)
+lower_frame.place(relwidth=1, relheight=0.9, relx=0, rely=0.1)
+
+from_input_data = StringVar(root)
+from_input_data.set(datetime.now().year)
+from_input_options = [ '2017', '2018', '2019' ]
+from_input = OptionMenu(upper_frame, from_input_data, *from_input_options)
+from_input.grid(row=0, column=0, padx=10, pady=40)
+
+to_input_data = StringVar(root)
+to_input_data.set(datetime.now().month)
+to_input_options = [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' ]
+to_input = OptionMenu(upper_frame, to_input_data, *to_input_options)
+to_input.grid(row=0, column=1, padx=10, pady=40)
+
+def generate_plots():
+    print('TODO: Do this')
+
+generate_plots_button = Button(upper_frame, text='Generate new Plots', bg=RIGHT_FRAME_COLOR, relief='flat', underline=0, command=lambda : generate_plots())
+generate_plots_button.grid(row=0, column=2, padx=10, pady=40)
+
+
+image_label = Label(lower_frame)
+image_label.pack(expand=True)
 
 def showImage(label):
     image = PhotoImage(file='Figure_{}.png'.format(label))
@@ -45,7 +70,7 @@ def showImage(label):
     image_label.image = image
 
 # Left Frame
-label = Label(left_frame, text='Plots & stats', bg=LEFT_FRAME_COLOR, font=LEFT_FRAME_FONT)
+label = Label(left_frame, text='Plots & Stats', bg=LEFT_FRAME_COLOR, font=LEFT_FRAME_FONT, anchor="center")
 label.grid(row=0, column=0)
 
 counter = 1
@@ -54,5 +79,18 @@ for temp_label in PLOTS_LABELS:
     button.grid(row=counter, column=0)
     counter += 1
 
+# Keybinds
+root.bind('<a>', lambda event: showImage(PLOTS_LABELS[0]))
+root.bind('<c>', lambda event: showImage(PLOTS_LABELS[1]))
+root.bind('<k>', lambda event: showImage(PLOTS_LABELS[2]))
+root.bind('<l>', lambda event: showImage(PLOTS_LABELS[3]))
+root.bind('<r>', lambda event: showImage(PLOTS_LABELS[4]))
+root.bind('<s>', lambda event: showImage(PLOTS_LABELS[5]))
+root.bind('<t>', lambda event: showImage(PLOTS_LABELS[6]))
+root.bind('<u>', lambda event: showImage(PLOTS_LABELS[7]))
+
+root.bind('<g>', lambda event: generate_plots())
+
 # Start GUI
+# print('Image size: {}x{}'.format(WIDTH * 0.8, HEIGHT * 0.8))
 root.mainloop()

@@ -4,6 +4,8 @@ import traceback
 import json
 import datetime as dt
 from calendar import monthrange
+import operator
+import collections
 
 with open('./data_test.json') as json_file:
     data = json.load(json_file)
@@ -29,8 +31,10 @@ def chatBot_common_tags():
             except KeyError:
                 pass
 
-        common_tags_used = list(plot_data.keys())
-        times_used_per_tag = list(plot_data.values())
+        sorted_data_list = sorted(plot_data.items(), key=operator.itemgetter(1), reverse=True)
+        sorted_plot_data = collections.OrderedDict(sorted_data_list)
+        common_tags_used = list(sorted_plot_data.keys())
+        times_used_per_tag = list(sorted_plot_data.values())
 
         title = 'Most common tags used'
         subtitle = 'This Month'

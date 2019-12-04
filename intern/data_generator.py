@@ -9,7 +9,7 @@ from calendar import monthrange as mr
 import json
 
 YEARS = [2019]
-MONTHS = [10, 11]
+MONTHS = [10, 11, 12]
 
 NAMES = ['Jesper', 'Michael', 'Mads', 'Magnus', 'Rasmus', 'Mathias',
          'Esben', 'Kim', 'Bjarne', 'Casper', 'Dennis', 'Daniel']
@@ -101,7 +101,7 @@ def generate_data(persons_per_day_min=1, additional_persons_per_day=3):
                     single_data = generate_single_data(year, month, day)
                     data[year][month][day].append(single_data)
 
-    with open('intern/data_test.json', 'w') as outfile:
+    with open('data_test.json', 'w') as outfile:
         json.dump(data, outfile)
 
     end_time = dt.datetime.now()
