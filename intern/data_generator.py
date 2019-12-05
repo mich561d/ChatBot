@@ -110,4 +110,4 @@ def generate_data(persons_per_day_min=1, additional_persons_per_day=3):
         divmod(elapsed_time.days * 86400 + elapsed_time.seconds, 60)))
 
 
-generate_data(MIN_PERSONS_PER_DAY, ADDITIONAL_PERSONS_PER_DAY)
+#generate_data(MIN_PERSONS_PER_DAY, ADDITIONAL_PERSONS_PER_DAY)

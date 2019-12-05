@@ -65,7 +65,9 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
             color='#8cff8c', label='Amount of chats')
     # Shows plot
     plt.legend()
-    plt.show()
+    #plt.show()
+
+    plt.savefig('Figure_Activity.png', dpi=72)
 
 
 # TODO: Remove

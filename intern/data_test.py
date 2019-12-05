@@ -3,7 +3,7 @@ import unittest
 from os import path
 from data_generator import generate_single_data
 
-class test(unittest.Testcase):
+class test(unittest.TestCase):
 
     def test_name_is_not_null(self):
         data = generate_single_data(2019, 5, 20)
