@@ -9,19 +9,21 @@ with open('./data_learning.json') as json_file:
     data = json.load(json_file)
 
 
-def chatBot_learning_time():
+def chatBot_learning_time(year=0, month=0):
     try:
         plot_data = {}
         # Getting date
         now = dt.datetime.now()
-        this_year = now.year
-        this_month = now.month
-        days_in_month = monthrange(this_year, this_month)[1]
+        if(year == 0):
+            year = now.year
+        if(month == 0):
+            month = now.month
+        days_in_month = monthrange(year, month)[1]
         # Create plot data
         date_format = '%Y/%m/%d-%H:%M:%S'
         for i in range(1, days_in_month+1):
             try:
-                temp_list = data[str(this_year)][str(this_month)][str(i)]
+                temp_list = data[str(year)][str(month)][str(i)]
                 start = dt.datetime.strptime(
                     temp_list['start_time'], date_format)
                 end = dt.datetime.strptime(temp_list['end_time'], date_format)
@@ -35,14 +37,12 @@ def chatBot_learning_time():
         time_spend = list(plot_data.values())
 
         title = 'Learning time of the chatbot'
-        subtitle = 'This Month'
         x_label = 'Days'
         y_label = 'Minutes'
         x_max = days_in_month
         y_max = max(time_spend) + 2
         create_graph(
             title,
-            subtitle,
             x_label,
             y_label,
             x_max,
@@ -54,10 +54,9 @@ def chatBot_learning_time():
         traceback.print_exc()
 
 
-def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list):
-    # Creates title and subtitle
+def create_graph(title, x_label, y_label, x_max, y_max, x_list, y_list):
+    # Creates title
     plt.title(title, fontsize=12)
-    plt.suptitle(subtitle, fontsize=10)
     # Creates grid
     plt.grid(color='g', linestyle='--', linewidth='0.2')
     # Creates axis
@@ -72,8 +71,5 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
             color='#8cff8c', label='Time')
     # Shows plot
     plt.legend()
-    plt.show()
-
-
-# TODO: Remove
-chatBot_learning_time()
+    # plt.show()
+    plt.savefig('GUI/Figure_Learning.png')

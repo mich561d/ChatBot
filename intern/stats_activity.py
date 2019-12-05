@@ -19,7 +19,8 @@ def chat_session_count(year=0, month=0):
     for temp_day in data[year][month].keys():
         try:
             for temp_user in data[year][month][temp_day]:
-                start_time = dt.datetime.strptime(temp_user['start'], date_format)
+                start_time = dt.datetime.strptime(
+                    temp_user['start'], date_format)
                 temp_hour = start_time.hour
                 value = plot_data.setdefault(temp_hour, 0)
                 plot_data.update({temp_hour: (value + 1)})
@@ -30,14 +31,12 @@ def chat_session_count(year=0, month=0):
     chat_sessions = list(plot_data.values())
 
     title = 'Amount of chats per hour of the day'
-    subtitle = 'Year: {} | Month: {}'.format(year, month)
     x_label = 'Hours of the day'
     y_label = 'Session amount'
     x_max = 24
     y_max = max(chat_sessions) + 2
     create_graph(
         title,
-        subtitle,
         x_label,
         y_label,
         x_max,
@@ -47,10 +46,9 @@ def chat_session_count(year=0, month=0):
     )
 
 
-def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list):
-    # Creates title and subtitle
+def create_graph(title, x_label, y_label, x_max, y_max, x_list, y_list):
+    # Creates title
     plt.title(title, fontsize=12)
-    plt.suptitle(subtitle, fontsize=10)
     # Creates grid
     plt.grid(color='g', linestyle='--', linewidth='0.2')
     # Creates axis
@@ -65,10 +63,5 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
             color='#8cff8c', label='Amount of chats')
     # Shows plot
     plt.legend()
-    #plt.show()
-
-    plt.savefig('Figure_Activity.png', dpi=72)
-
-
-# TODO: Remove
-chat_session_count()
+    # plt.show()
+    plt.savefig('GUI/Figure_Activity.png')

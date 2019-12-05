@@ -11,18 +11,20 @@ with open('./data_test.json') as json_file:
     data = json.load(json_file)
 
 
-def chatBot_common_tags():
+def chatBot_common_tags(year=0, month=0):
     try:
         plot_data = {}
         # Getting date
         now = dt.datetime.now()
-        this_year = now.year
-        this_month = now.month
-        days_in_month = monthrange(this_year, this_month)[1]
+        if(year == 0):
+            year = now.year
+        if(month == 0):
+            month = now.month
+        days_in_month = monthrange(year, month)[1]
         # Create plot data
         for i in range(1, days_in_month+1):
             try:
-                temp_users = data[str(this_year)][str(this_month)][str(i)]
+                temp_users = data[str(year)][str(month)][str(i)]
                 for temp_user in temp_users:
                     for temp_line in temp_user['lines']:
                         tag = temp_line['tag']
@@ -31,20 +33,19 @@ def chatBot_common_tags():
             except KeyError:
                 pass
 
-        sorted_data_list = sorted(plot_data.items(), key=operator.itemgetter(1), reverse=True)
+        sorted_data_list = sorted(
+            plot_data.items(), key=operator.itemgetter(1), reverse=True)
         sorted_plot_data = collections.OrderedDict(sorted_data_list)
         common_tags_used = list(sorted_plot_data.keys())
         times_used_per_tag = list(sorted_plot_data.values())
 
         title = 'Most common tags used'
-        subtitle = 'This Month'
         x_label = 'Tags'
         y_label = 'Times used'
         x_max = len(common_tags_used)
         y_max = max(times_used_per_tag) + 5
         create_graph(
             title,
-            subtitle,
             x_label,
             y_label,
             x_max,
@@ -56,10 +57,9 @@ def chatBot_common_tags():
         traceback.print_exc()
 
 
-def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list):
-    # Creates title and subtitle
+def create_graph(title, x_label, y_label, x_max, y_max, x_list, y_list):
+    # Creates title
     plt.title(title, fontsize=12)
-    plt.suptitle(subtitle, fontsize=10)
     # Creates grid
     plt.grid(color='g', linestyle='--', linewidth='0.2')
     # Creates axis
@@ -74,8 +74,5 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
             color='#8cff8c', label='Times used')
     # Shows plot
     plt.legend()
-    plt.show()
-
-
-# TODO: Remove
-chatBot_common_tags()
+    # plt.show()
+    plt.savefig('GUI/Figure_Tags.png')
