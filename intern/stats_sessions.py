@@ -8,7 +8,7 @@ with open('./data_test.json') as json_file:
     data = json.load(json_file)
 
 
-def chat_interval(year=0, month=0, day=0):
+def chat_interval(year=0, month=0):
     years = []
     months = []
     days = []
@@ -26,14 +26,11 @@ def chat_interval(year=0, month=0, day=0):
                     months.append(temp_month)
         else:
             months.append(month)
-        # Gets specific day or all day
-        if day == 0:
-            for temp_year in data.keys():
-                for temp_month in data[temp_year].keys():
-                    for temp_day in data[temp_year][temp_month].keys():
-                        days.append(temp_day)
-        else:
-            days.append(day)
+        # Gets all days
+        for temp_year in data.keys():
+            for temp_month in data[temp_year].keys():
+                for temp_day in data[temp_year][temp_month].keys():
+                    days.append(temp_day)
         # Create plot data
         date_format = '%d/%m/%Y %H:%M:%S'
         plot_data = {}
@@ -82,14 +79,12 @@ def chat_interval(year=0, month=0, day=0):
             temp_counter += 1
 
         title = 'Average of chat sessions in minutes per hour of the day'
-        subtitle = 'For every single chat session'
         x_label = 'Hours of the day'
         y_label = 'Session length in minutes'
         x_max = 24
         y_max = max(max_sessions) + (3 - (max(max_sessions) % 3))
         create_graph(
             title,
-            subtitle,
             x_label,
             y_label,
             x_max,
@@ -106,10 +101,9 @@ def chat_interval(year=0, month=0, day=0):
         print(days)
 
 
-def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list_avg, y_list_max, y_list_min):
-    # Creates title and subtitle
+def create_graph(title, x_label, y_label, x_max, y_max, x_list, y_list_avg, y_list_max, y_list_min):
+    # Creates title
     plt.title(title, fontsize=12)
-    plt.suptitle(subtitle, fontsize=10)
     # Creates grid
     plt.grid(color='g', linestyle='--', linewidth='0.2')
     # Creates axis
@@ -128,8 +122,5 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
             color='#6bcffa', label='Minimum length')
     # Shows plot
     plt.legend()
-    plt.show()
-
-
-# TODO: Remove
-chat_interval()
+    # plt.show()
+    plt.savefig('GUI/Figure_Sessions.png')

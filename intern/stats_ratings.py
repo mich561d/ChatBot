@@ -9,19 +9,21 @@ with open('./data_test.json') as json_file:
     data = json.load(json_file)
 
 
-def chatBot_ratings():
+def chatBot_ratings(year=0, month=0):
     try:
         plot_data = {}
         # Getting date
         now = dt.datetime.now()
-        this_year = now.year
-        this_month = now.month
-        days_in_month = monthrange(this_year, this_month)[1]
+        if(year == 0):
+            year = now.year
+        if(month == 0):
+            month = now.month
+        days_in_month = monthrange(year, month)[1]
         # Create plot data
         highest_rating = 0
         for i in range(1, days_in_month+1):
             try:
-                temp_list = data[str(this_year)][str(this_month)][str(i)]
+                temp_list = data[str(year)][str(month)][str(i)]
                 bad = 0
                 poor = 0
                 decent = 0
@@ -64,14 +66,12 @@ def chatBot_ratings():
             temp_counter += 1
 
         title = 'Ratings of the chatbot'
-        subtitle = 'This Month'
         x_label = 'Days'
         y_label = 'Count of ratings'
         x_max = days_in_month
         y_max = highest_rating + 1
         create_graph(
             title,
-            subtitle,
             x_label,
             y_label,
             x_max,
@@ -87,11 +87,10 @@ def chatBot_ratings():
         traceback.print_exc()
 
 
-def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list_bad, y_list_poor, y_list_decent, y_list_good, y_list_best):
+def create_graph(title, x_label, y_label, x_max, y_max, x_list, y_list_bad, y_list_poor, y_list_decent, y_list_good, y_list_best):
     barWidth = 0.15
-    # Creates title and subtitle
+    # Creates title
     plt.title(title, fontsize=12)
-    plt.suptitle(subtitle, fontsize=10)
     # Creates grid
     plt.grid(color='g', linestyle='--', linewidth='0.2')
     # Creates axis
@@ -120,8 +119,5 @@ def create_graph(title, subtitle, x_label, y_label, x_max, y_max, x_list, y_list
             align='center', color='#eb4034', label='Bad')
     # Shows plot
     plt.legend()
-    plt.show()
-
-
-# TODO: Remove
-chatBot_ratings()
+    # plt.show()
+    plt.savefig('GUI/Figure_Ratings.png')
