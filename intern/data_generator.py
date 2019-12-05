@@ -46,15 +46,18 @@ def get_country_from_ip(ip):
 
 
 def generate_lines(count):
-    lines = []
-    for i in range(count):
-        lines.append(
-            {
-                'user_msg': 'This is just test data!',
-                'tag': c(TAGS)
-            }
-        )
-    return lines
+    try:
+        lines = []
+        for i in range(count):
+            lines.append(
+                {
+                    'user_msg': 'This is just test data!',
+                    'tag': c(TAGS)
+                }
+            )
+        return lines
+    except TypeError:
+        return "Wrong input"
 
 
 def generate_single_data(year, month, day):
