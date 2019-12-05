@@ -3,68 +3,53 @@ import numpy as np
 import traceback
 import json
 import datetime as dt
+from calendar import monthrange
 
 with open('./data_test.json') as json_file:
     data = json.load(json_file)
 
 
 def chat_interval(year=0, month=0):
-    years = []
-    months = []
-    days = []
     try:
-        # Gets specific year or all years
-        if year == 0:
-            for temp_year in data.keys():
-                years.append(temp_year)
-        else:
-            years.append(year)
-        # Gets specific month or all month
-        if month == 0:
-            for temp_year in data.keys():
-                for temp_month in data[temp_year].keys():
-                    months.append(temp_month)
-        else:
-            months.append(month)
-        # Gets all days
-        for temp_year in data.keys():
-            for temp_month in data[temp_year].keys():
-                for temp_day in data[temp_year][temp_month].keys():
-                    days.append(temp_day)
+        plot_data = {}
+        # Getting date
+        now = dt.datetime.now()
+        if(year == 0):
+            year = now.year
+        if(month == 0):
+            month = now.month
+        days_in_month = monthrange(year, month)[1]
         # Create plot data
         date_format = '%d/%m/%Y %H:%M:%S'
-        plot_data = {}
-        for temp_year in years:
-            for temp_month in months:
-                temp_hours_of_the_day = {}
-                for temp_day in days:
-                    try:
-                        for temp_user in data[temp_year][temp_month][temp_day]:
-                            start_time = dt.datetime.strptime(
-                                temp_user['start'], date_format)
-                            end_time = dt.datetime.strptime(
-                                temp_user['end'], date_format)
-                            time_between = (end_time - start_time).seconds
+        temp_hours_of_the_day = {}
+        for i in range(1, days_in_month+1):
+            try:
+                for temp_user in data[str(year)][str(month)][str(i)]:
+                    start_time = dt.datetime.strptime(
+                        temp_user['start'], date_format)
+                    end_time = dt.datetime.strptime(
+                        temp_user['end'], date_format)
+                    time_between = (end_time - start_time).seconds
 
-                            temp_hour = start_time.hour
-                            if temp_hour not in temp_hours_of_the_day.keys():
-                                temp_hours_of_the_day[temp_hour] = {
-                                    'sum': 0, 'len': 0, 'max': 0, 'min': 10000}
+                    temp_hour = start_time.hour
+                    if temp_hour not in temp_hours_of_the_day.keys():
+                        temp_hours_of_the_day[temp_hour] = {
+                            'sum': 0, 'len': 0, 'max': 0, 'min': 10000}
 
-                            temp_hours_of_the_day[temp_hour]['sum'] += time_between
-                            temp_hours_of_the_day[temp_hour]['len'] += 1
-                            temp_hours_of_the_day[temp_hour]['max'] = time_between if time_between > temp_hours_of_the_day[
-                                temp_hour]['max'] else temp_hours_of_the_day[temp_hour]['max']
-                            temp_hours_of_the_day[temp_hour]['min'] = time_between if time_between < temp_hours_of_the_day[
-                                temp_hour]['min'] else temp_hours_of_the_day[temp_hour]['min']
-                    except KeyError:
-                        pass
-                for hour in temp_hours_of_the_day.keys():
-                    temp_avg = (temp_hours_of_the_day[hour]['sum'] /
-                                temp_hours_of_the_day[hour]['len']) / 60
-                    temp_max = temp_hours_of_the_day[hour]['max'] / 60
-                    temp_min = temp_hours_of_the_day[hour]['min'] / 60
-                    plot_data.setdefault(hour, [temp_avg, temp_max, temp_min])
+                    temp_hours_of_the_day[temp_hour]['sum'] += time_between
+                    temp_hours_of_the_day[temp_hour]['len'] += 1
+                    temp_hours_of_the_day[temp_hour]['max'] = time_between if time_between > temp_hours_of_the_day[
+                        temp_hour]['max'] else temp_hours_of_the_day[temp_hour]['max']
+                    temp_hours_of_the_day[temp_hour]['min'] = time_between if time_between < temp_hours_of_the_day[
+                        temp_hour]['min'] else temp_hours_of_the_day[temp_hour]['min']
+            except KeyError as e:
+                pass
+            for hour in temp_hours_of_the_day.keys():
+                temp_avg = (temp_hours_of_the_day[hour]['sum'] /
+                            temp_hours_of_the_day[hour]['len']) / 60
+                temp_max = temp_hours_of_the_day[hour]['max'] / 60
+                temp_min = temp_hours_of_the_day[hour]['min'] / 60
+                plot_data.setdefault(hour, [temp_avg, temp_max, temp_min])
 
         hours_of_the_day = list(plot_data.keys())
         chat_sessions_in_minutes = list(plot_data.values())
@@ -82,7 +67,7 @@ def chat_interval(year=0, month=0):
         x_label = 'Hours of the day'
         y_label = 'Session length in minutes'
         x_max = 24
-        y_max = max(max_sessions) + (3 - (max(max_sessions) % 3))
+        y_max = max(max_sessions) + 3#(3 - (max(max_sessions) % 3))
         create_graph(
             title,
             x_label,
@@ -96,9 +81,6 @@ def chat_interval(year=0, month=0):
         )
     except KeyError:
         traceback.print_exc()
-        print(years)
-        print(months)
-        print(days)
 
 
 def create_graph(title, x_label, y_label, x_max, y_max, x_list, y_list_avg, y_list_max, y_list_min):
@@ -123,4 +105,5 @@ def create_graph(title, x_label, y_label, x_max, y_max, x_list, y_list_avg, y_li
     # Shows plot
     plt.legend()
     # plt.show()
-    plt.savefig('GUI/Figure_Sessions.png')
+    plt.savefig('Figure_Sessions.png')
+    plt.close()

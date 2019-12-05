@@ -1,7 +1,7 @@
 # 4th semester exam project - ChatBot
 Create by Jesper C. & Michael Due P.
 
-Last updated: 4th of December, 2019
+Last updated: 5th of December, 2019
 
 ## Explanation of Project
 This project was developed as a exam project for 4. semester in Python.
@@ -63,9 +63,9 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 - [ ] Client-based GUI
     - [x] GUI
     - [ ] Integrated
-- [ ] Intern-based GUI
+- [x] Intern-based GUI
     - [x] GUI
-    - [ ] Integrated
+    - [x] Integrated
 - [ ] Multi-language
     - [ ] Access to Google translate API
     - [ ] Integrated with users country
@@ -90,13 +90,16 @@ Edit settings files and then:
 1. Invoke server from the terminal as : `Python chatBot-server.py`
 2. Invoke client from the terminal as : `Python chatBot-client.py`
 
+**Notice:** if an `moduleNotFoundError` occured it's because you don't have the secret key to ipstack
+
 ## Development environment :
 - Windows 10 Pro
+- pip versions 19.1.1
 - Windown CMD (Server / Brain)
 - Python 3.6.9 (Server / Brain)
 - Git Bash (Client / Intern)
 - Python 3.7.3 (Client / Intern)
-- Visual Studio Code v1.39.2
+- Visual Studio Code v1.40.2
 
 ## Proof of concept (Danish)
 ### Hvad vil vi?

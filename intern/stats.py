@@ -8,8 +8,9 @@ from stats_tags import chatBot_common_tags as tags
 from stats_users import chatBot_ip as users
 
 
-def generate_plots(year=2019, month=12):
+def generate_plots(year=0, month=0):
     print('---------- Starting creating plots ----------')
+    print('Year: {}\nMonth: {}'.format(year, month))
     activity(year=year, month=month)
     print('1. Activity Done')
     countries(year=year, month=month)
@@ -26,6 +27,7 @@ def generate_plots(year=2019, month=12):
     print('7. Tags Done')
     users(year=year, month=month)
     print('8. Users Done')
-    print('-------------------- End --------------------')
+    print('-------------------- End --------------------\n')
+
 
 generate_plots()

@@ -64,4 +64,5 @@ def create_graph(title, x_label, y_label, x_max, y_max, x_list, y_list):
     # Shows plot
     plt.legend()
     # plt.show()
-    plt.savefig('GUI/Figure_Activity.png')
+    plt.savefig('Figure_Activity.png')
+    plt.close()
