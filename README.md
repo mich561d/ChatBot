@@ -45,7 +45,6 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
 - [ ] Data
     - [x] Common data
     - [ ] Camping data
-    - [ ] Bunch of data
 - [ ] Self-learning of log files
     - [ ] Convert logging of conversations to JSON
     - [ ] Saving conversations to big JSON file
@@ -58,11 +57,9 @@ Every queue access is wrapped up in a mutex lock to prevent clashes or race cond
     - [x] Where does the customers come from (Top 10)
     - [x] How many times does a customer chat (Top 10)
     - [x] Ratings from customers
-- [ ] Create facade class
-- [ ] Test
-    - [ ] Unit test
-    - [ ] Integrations test
-    - [ ] User test
+- [x] Test
+    - [x] Unit test
+    - [x] Integrations test
 - [ ] Client-based GUI
     - [x] GUI
     - [ ] Integrated
