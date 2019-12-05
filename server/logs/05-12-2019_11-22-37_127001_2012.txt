@@ -1,0 +1,3 @@
+Start: 05/12/2019 11:22:37
+--------------------------
+11:22:37 | Bot: Hello! My name is CV-Bot :) What can I help you with?
