@@ -97,8 +97,8 @@ Edit settings files and then:
 - Windows 10 Pro
 - Windown CMD (Server / Brain)
 - Python 3.6.9 (Server / Brain)
-- Git Bash (Client)
-- Python 3.7.3 (Client)
+- Git Bash (Client / Intern)
+- Python 3.7.3 (Client / Intern)
 - Visual Studio Code v1.39.2
 
 ## Proof of concept (Danish)
