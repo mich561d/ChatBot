@@ -64,7 +64,7 @@
                 "when can I contact you"
             ],
             "responses": [
-                "Mon-Thur: 09.00 - 17.00, Fri: 09.00 - 16.00 Sat: Lukket, Sun: 10.00 - 14.00"
+                "Mon-Thur: 09.00 - 17.00, Fri: 09.00 - 16.00 Sat: Closed, Sun: 10.00 - 14.00"
             ],
             "context_set": ""
         },
@@ -80,7 +80,7 @@
                 "do you have fax"
             ],
             "responses": [
-                "Phone: +45 7010 4343, Email: NoneOfYourFuckingBusiness@Goodbye.dk"
+                "Phone: +45 7010 4343, Email: Email@email.dk"
             ],
             "context_set": ""
         },
