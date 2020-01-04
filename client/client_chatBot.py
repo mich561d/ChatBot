@@ -110,3 +110,5 @@ def setup(self):
         print(settings.QUIT)
         writeSocket.send(clientInput)
         sys.exit()
+
+setup()
