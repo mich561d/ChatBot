@@ -19,17 +19,23 @@ class ServerThreadWrite(Thread):
     def run(self):
         while True:
             while settings.accept_input:
-                current_question = get_question()
-                if current_question != None:
-                    clientInput = '{}: {}'.format(settings.USER_NAME, current_question))
-                    self.socket.send(str.encode(clientInput))
-                    if clientInput == 'exit':
-                        print(settings.QUIT)
-                        status = 0
-                        sys.exit()
-                    if status == 0:
-                        print(settings.QUIT)
-                        sys.exit()
+                clientInput = input('{}: '.format(settings.USER_NAME))
+                self.socket.send(str.encode(clientInput))
+                if clientInput == 'exit':
+                    print(settings.QUIT)
+                    status = 0
+                    sys.exit()
+                #current_question = get_question()
+                # if current_question != None:
+                #   clientInput = '{}: {}'.format(settings.USER_NAME, current_question))
+                #   self.socket.send(str.encode(clientInput))
+                #   if clientInput == 'exit':
+                #      print(settings.QUIT)
+                #      status = 0
+                #      sys.exit()
+                #   if status == 0:
+                #      print(settings.QUIT)
+                #      sys.exit()
                 else:
                     time.sleep(1)
 
@@ -61,10 +67,12 @@ lock = threading.Lock()
 questions = []
 answers = []
 
+
 def add_question(self, question):
     lock.acquire()
     questions.append(question)
     lock.release()
+
 
 def get_question(self):
     lock.acquire()
