@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import simpledialog
-import client_chatBot as client
+#import client_chatBot as client
 
 string_to_display = []
 
@@ -10,7 +10,7 @@ def show_message(self):
     user_message = input_field.get()
     show_user_message = 'You: {}'.format(user_message)
     string_to_display.append(show_user_message)
-    client.add_question(user_message)
+    #client.add_question(user_message)
 
     # Handling bot message
     bot_message = input_field.get()
@@ -37,12 +37,12 @@ def on_close(self):
         maxvalue=5
     )
     if result != None:
-        client.add_question('Rating: {}'.format(result))
-        client.status = 0
+        #client.add_question('Rating: {}'.format(result))
+        #client.status = 0
         root.destroy()
 
 
-client.setup()
+#client.setup()
 
 root = Tk()
 
