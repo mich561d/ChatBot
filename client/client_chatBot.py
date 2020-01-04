@@ -81,34 +81,32 @@ def get_question(self):
     return current_question
 
 
-def setup(self):
-    writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    writeSocket.connect((settings.TCP_IP, settings.TCP_PORT_WRITE))
-    readSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    readSocket.connect((settings.TCP_IP, settings.TCP_PORT_READ))
+#def setup(self):
+writeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+writeSocket.connect((settings.TCP_IP, settings.TCP_PORT_WRITE))
+readSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+readSocket.connect((settings.TCP_IP, settings.TCP_PORT_READ))
 
-    threads = []
-    try:
-        writeThread = ServerThreadWrite(writeSocket)
-        readThread = ServerThreadRead(writeSocket, readSocket)
-        writeThread.daemon = True
-        readThread.daemon = True
-        writeThread.start()
-        readThread.start()
+threads = []
+try:
+    writeThread = ServerThreadWrite(writeSocket)
+    readThread = ServerThreadRead(writeSocket, readSocket)
+    writeThread.daemon = True
+    readThread.daemon = True
+    writeThread.start()
+    readThread.start()
 
-        threads.append(writeThread)
-        threads.append(readThread)
+    threads.append(writeThread)
+    threads.append(readThread)
 
-        while True:
-            for t in threads:
-                t.join(600)
-                if not t.isAlive():
-                    break
-            break
-    except KeyboardInterrupt:
-        clientInput = 'exit'
-        print(settings.QUIT)
-        writeSocket.send(clientInput)
-        sys.exit()
-
-setup()
+    while True:
+        for t in threads:
+            t.join(600)
+            if not t.isAlive():
+                break
+        break
+except KeyboardInterrupt:
+    clientInput = 'exit'
+    print(settings.QUIT)
+    writeSocket.send(clientInput)
+    sys.exit()
