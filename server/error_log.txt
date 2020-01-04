@@ -59,3 +59,17 @@ Traceback (most recent call last):
   File "server-chatBot.py", line 32, in run
     userInput = self.socket.recv(2048).decode('utf-8')
 ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+2020-01-04 20:39:44,660 | A connection was made | 127.0.0.1 | 1424
+
+2020-01-04 20:39:45,209 | Read | 127.0.0.1 | 1424
+Traceback (most recent call last):
+  File "server-chatBot.py", line 32, in run
+    userInput = self.socket.recv(2048).decode('utf-8')
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+2020-01-04 20:39:45,209 | Read | 127.0.0.1 | 1424
+Traceback (most recent call last):
+  File "server-chatBot.py", line 32, in run
+    userInput = self.socket.recv(2048).decode('utf-8')
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
