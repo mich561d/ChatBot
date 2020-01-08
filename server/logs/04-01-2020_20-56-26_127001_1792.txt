@@ -1,0 +1,9 @@
+Start: 04/01/2020 20:56:26
+--------------------------
+20:56:26 | Bot: Hello! My name is CV-Bot :) What can I help you with?
+20:58:16 | User: Hej
+20:58:16 | Bot: I'm at your service
+20:58:24 | User: Hey
+20:58:24 | Bot: Hello!
+20:59:00 | User: Who are you?
+20:59:00 | Bot: No problem

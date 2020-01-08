@@ -1,0 +1,9 @@
+Start: 04/01/2020 20:55:00
+--------------------------
+20:55:00 | Bot: Hello! My name is CV-Bot :) What can I help you with?
+20:58:11 | User: Hej
+20:58:11 | Bot: You're welcome
+20:58:27 | User: Hey
+20:58:27 | Bot: Hey
+20:58:43 | User: When do you open?
+20:58:43 | Bot: Mon-Thur: 09.00 - 17.00, Fri: 09.00 - 16.00 Sat: Closed, Sun: 10.00 - 14.00

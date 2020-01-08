@@ -8,8 +8,8 @@ from datetime import timedelta as td
 from calendar import monthrange as mr
 import json
 
-YEARS = [2019]
-MONTHS = [10, 11, 12]
+YEARS = [2019, 2020]
+MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 NAMES = ['Jesper', 'Michael', 'Mads', 'Magnus', 'Rasmus', 'Mathias',
          'Esben', 'Kim', 'Bjarne', 'Casper', 'Dennis', 'Daniel']
